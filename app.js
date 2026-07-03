@@ -1,7 +1,7 @@
 const CONFIG = {
-    DATABASE_ENDPOINT: 'https://script.google.com/macros/s/AKfycbwBogUFSRvMb7NQwnE-TLvrfjirNlItVzzvsyAp3u_oLz_qtFNFETGcIt-UIbVdUlX3/exec', // Ensure this ID is correct!
+    DATABASE_ENDPOINT: 'https://script.google.com/macros/s/AKfycbwBogUFSRvMb7NQwnE-TLvrfjirNlItVzzvsyAp3u_oLz_qtFNFETGcIt-UIbVdUlX3/exec',
     CACHE_KEY: 'azz_hub_local_database_cache',
-    CACHE_EXPIRY: 10 * 60 * 1000 // 10 minutes cache expiration time optimization check
+    CACHE_EXPIRY: 10 * 60 * 1000 // 10 minutes cache expiration check
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLeadForm();
     initLightbox();
     loadSiteDataPipeline(); // Runs the lightning-fast loader
+    initManualTickerControls(); // Initializes manual marquee slider interaction
 });
 
 /* Mobile Menu System Controller */
@@ -28,15 +29,13 @@ function loadSiteDataPipeline() {
     const cachedTime = localStorage.getItem(CONFIG.CACHE_KEY + '_time');
     const now = Date.now();
 
-    // 1. If we have a local cache and it's fresh, display it instantly!
     if (cachedData && cachedTime && (now - cachedTime < CONFIG.CACHE_EXPIRY)) {
         const parsedData = JSON.parse(cachedData);
         renderAllComponents(parsedData);
         
-        // Quietly fetch data in the background to check for database row updates
+        // Quietly fetch data in the background to check for adjustments
         fetchRealtimeDataSilently();
     } else {
-        // 2. No cache or expired data: full fetch process
         fetchRealtimeDataWithUIUpdate();
     }
 }
@@ -48,7 +47,6 @@ async function fetchRealtimeDataWithUIUpdate() {
         if (!response.ok) throw new Error('Data transmission breakdown.');
         const data = await response.json();
         
-        // Cache the incoming payload objects
         localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
         localStorage.setItem(CONFIG.CACHE_KEY + '_time', Date.now().toString());
         
@@ -59,7 +57,7 @@ async function fetchRealtimeDataWithUIUpdate() {
     }
 }
 
-/* Background synchronization check (No spinning loaders to annoy the user) */
+/* Background synchronization check */
 async function fetchRealtimeDataSilently() {
     try {
         const response = await fetch(CONFIG.DATABASE_ENDPOINT);
@@ -67,7 +65,7 @@ async function fetchRealtimeDataSilently() {
             const data = await response.json();
             localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
             localStorage.setItem(CONFIG.CACHE_KEY + '_time', Date.now().toString());
-            renderAllComponents(data); // Silently updates values if anything changed in Google Sheets
+            renderAllComponents(data); 
         }
     } catch (e) {
         console.log('Silent sync skipped. Using active cache layer safely.');
@@ -145,12 +143,11 @@ function renderSchools(schools) {
     }).join('');
 }
 
-/* Infinite Marquee Loop Parser (Duplicates automatically so it scrolls seamlessly without breaking) */
+/* Infinite Marquee Loop Parser */
 function renderDeadlines(deadlines) {
     const ticker = document.getElementById('deadlines-ticker');
     if (!ticker || !deadlines || deadlines.length === 0) return;
     
-    // Generate individual items
     const tickerItemsHTML = deadlines.map(d => {
         let imgHTML = d.imageurl ? `<img src="${d.imageurl}" class="ticker-thumb" alt="">` : '<i class="fas fa-university" style="color:#0066FF;"></i>';
         return `
@@ -162,8 +159,8 @@ function renderDeadlines(deadlines) {
         `;
     }).join('');
 
-    // Duplicate string payload so there are no empty gaps on screen during loop
-    ticker.innerHTML = tickerItemsHTML + tickerItemsHTML + tickerItemsHTML;
+    // Multiplying structural items sets an infinite horizon loop without showing empty page gaps
+    ticker.innerHTML = tickerItemsHTML + tickerItemsHTML + tickerItemsHTML + tickerItemsHTML;
 }
 
 /* Core Media Image Gallery Layout Elements Generation */
@@ -243,5 +240,69 @@ function initLeadForm() {
         } finally {
             submitBtn.disabled = false;
         }
+    });
+}
+
+/* Interactive Manual Mouse Drag and Touch Swipe Marquee Controls Engine */
+function initManualTickerControls() {
+    const container = document.querySelector('.marquee-container');
+    const content = document.querySelector('.marquee-content');
+    if (!container || !content) return;
+
+    let isDown = false;
+    let startX;
+    let currentTranslation = 0;
+
+    function getMatrixXTransform() {
+        const style = window.getComputedStyle(content);
+        const matrix = new WebKitCSSMatrix(style.transform);
+        return matrix.m41;
+    }
+
+    container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        container.classList.add('is-dragging');
+        startX = e.pageX - container.offsetLeft;
+        currentTranslation = getMatrixXTransform();
+        
+        content.style.transform = `translateX(${currentTranslation}px)`;
+        content.style.animation = 'none';
+    });
+
+    const stopDragging = () => {
+        if (!isDown) return;
+        isDown = false;
+        container.classList.remove('is-dragging');
+        content.style.transform = '';
+        content.style.animation = '';
+    };
+
+    container.addEventListener('mouseleave', stopDragging);
+    container.addEventListener('mouseup', stopDragging);
+
+    container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5; 
+        content.style.transform = `translateX(${currentTranslation + walk}px)`;
+    });
+
+    /* Touch support mechanics for smartphones */
+    container.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - container.offsetLeft;
+        currentTranslation = getMatrixXTransform();
+        content.style.transform = `translateX(${currentTranslation}px)`;
+        content.style.animation = 'none';
+    });
+
+    container.addEventListener('touchend', stopDragging);
+
+    container.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        content.style.transform = `translateX(${currentTranslation + walk}px)`;
     });
 }
