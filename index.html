@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azz Internet Hub | Forge Your Digital Destiny</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="#" class="logo-area">
+                <img src="logo.png" alt="Azz Internet Hub Logo" class="site-logo">
+            </a>
+            <button class="menu-toggle" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#portal-news" class="nav-link">Admissions</a></li>
+                    <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="vouchers.html" class="nav-link premium-link"><i class="fas fa-ticket-alt"></i> Voucher Portal</a></li>
+                    <li><a href="#contact" class="btn btn-primary nav-btn">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="badge">Fast. Reliable. Trusted.</span>
+                <h1>Forge your digital destiny with Azz Internet Hub</h1>
+                <p>We deliver premium internet solutions and institutional applications directly to your comfort zone.</p>
+                <div class="hero-actions">
+                    <a href="#services" class="btn btn-primary">Our Services</a>
+                    <a href="vouchers.html" class="btn btn-secondary">Voucher Portal</a>
+                </div>
+            </div>
+            <div class="hero-graphic">
+                <div class="accent-circle"></div>
+                <div class="floating-card"><i class="fas fa-graduation-cap"></i> Tertiary Applications</div>
+                <div class="floating-card"><i class="fas fa-passport"></i> Ghanaian Passport</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ticker-section">
+        <div class="container">
+            <div class="ticker-wrapper">
+                <div class="ticker-title"><i class="fas fa-exclamation-circle"></i> Closing Deadlines:</div>
+                <div class="ticker-content" id="deadlines-ticker">Connecting to real-time institutional records...</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Services We Offer</h2>
+                <p>Tailored digital operations configured to premium execution standards.</p>
+            </div>
+            <div class="services-grid" id="services-container">
+                <div class="loading-placeholder">Synchronizing data grid...</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portal-news" class="info-section">
+        <div class="container grid-2col">
+            <div class="info-block">
+                <h3><i class="fas fa-university"></i> Featured Institutions</h3>
+                <div class="dynamic-list" id="schools-list">
+                    <p class="loading-text">Updating list...</p>
+                </div>
+            </div>
+            <div class="info-block">
+                <h3><i class="fas fa-bullhorn"></i> Live Announcements</h3>
+                <div class="dynamic-list" id="announcements-list">
+                    <p class="loading-text">Fetching live feed...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Media Gallery</h2>
+                <p>A closer look inside our operations, certifications, and updates.</p>
+            </div>
+            <div class="gallery-grid" id="gallery-container">
+                <p class="loading-text">Loading portfolio visual database...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container grid-2col">
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+                <p>Contact our system specialists directly. All actions process automatically into our client tracking framework.</p>
+                <div class="contact-methods">
+                    <div class="method-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4>Call Us Today</h4>
+                            <p><a href="tel:+233598160732">+233 (0) 59 816 0732</a></p>
+                            <p><a href="tel:+233595710735">+233 (0) 59 571 0735</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-wrapper">
+                <form id="lead-form" class="premium-form">
+                    <h3>Submit Inquiry / Request</h3>
+                    <div class="form-group">
+                        <label for="customer-name">Full Name</label>
+                        <input type="text" id="customer-name" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone">Phone Number</label>
+                        <input type="tel" id="customer-phone" required placeholder="+233 ...">
+                    </div>
+                    <div class="form-group">
+                        <label for="service-type">Required Service</label>
+                        <select id="service-type" required>
+                            <option value="">Select service options...</option>
+                            <option value="Tertiary Application">Tertiary Application</option>
+                            <option value="WAEC Results Checker">WAEC Results Checker</option>
+                            <option value="Ghanaian Passport">Ghanaian Passport</option>
+                            <option value="Web Design">Web Design</option>
+                            <option value="Bulk SMS">Bulk SMS</option>
+                            <option value="Graphic Design">Graphic Design</option>
+                            <option value="Coding Tutorials">Coding Tutorials</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-message">Message Details</label>
+                        <textarea id="customer-message" rows="4" placeholder="How can we help you expand your comfort zone?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="submit-btn">
+                        <span>Send Request</span> <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <div id="form-feedback" class="form-feedback"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-actions">
+        <a href="https://wa.me/233598160732" class="float-btn whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content-wrapper">
+            <img class="lightbox-content" id="lightbox-img" alt="Fullscreen view">
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Azz Internet Hub. All Rights Reserved. We deliver at your comfort zone.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
