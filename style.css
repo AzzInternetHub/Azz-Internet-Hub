@@ -57,15 +57,98 @@ body { font-family: var(--font-stack); color: var(--text-main); background-color
 .accent-glow { position: absolute; width: 350px; height: 350px; background: radial-gradient(circle, rgba(0,102,255,0.08) 0%, rgba(255,255,255,0) 70%); top: -50px; left: -50px; z-index: -1; pointer-events: none; }
 .floating-card { background: var(--card-surface); padding: 22px; border-radius: var(--radius-premium); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); border-left: 6px solid var(--primary-glow); font-weight: 700; color: var(--primary-deep); font-size: 1rem; border-top: 1px solid rgba(241, 245, 249, 0.5); }
 
-/* Luxury Seamless Infinite Marquee Loop (Replaces the old blue row) */
-.ticker-wrapper-modern { display: flex; align-items: center; background: rgba(6, 21, 43, 0.98); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); height: 50px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-.ticker-label-modern { background: linear-gradient(135deg, var(--primary-glow), var(--primary-light)); color: #FFF; font-weight: 800; font-size: 0.85rem; padding: 0 24px; height: 100%; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; z-index: 5; position: relative; box-shadow: 8px 0 20px rgba(0,0,0,0.2); }
-.marquee-container { overflow: hidden; width: 100%; display: flex; }
-.marquee-content { display: flex; white-space: nowrap; animation: continuousMarquee 35s linear infinite; gap: 50px; padding-left: 20px; }
-.marquee-content:hover { animation-play-state: paused; } /* Pauses loop when hovering so customers can read */
-.marquee-item { display: inline-flex; align-items: center; color: rgba(255, 255, 255, 0.9); font-weight: 600; font-size: 0.95rem; gap: 10px; }
-.ticker-thumb { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.2); background: #fff; }
-.ticker-date { color: #51b5ff; font-weight: 700; background: rgba(0, 102, 255, 0.15); padding: 2px 10px; border-radius: 30px; font-size: 0.8rem; border: 1px solid rgba(0, 102, 255, 0.2); }
+/* Luxury Interactive Marquee Banner - Massive Visual Overhaul */
+.ticker-wrapper-modern { 
+    display: flex; 
+    align-items: center; 
+    background: linear-gradient(135deg, rgba(6, 21, 43, 0.98), rgba(10, 31, 64, 0.99));
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 2px solid rgba(0, 102, 255, 0.2); 
+    border-bottom: 2px solid rgba(0, 102, 255, 0.2); 
+    height: 70px; /* Enhanced height for better breathing room */
+    overflow: hidden; 
+    position: relative; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+}
+
+.ticker-label-modern { 
+    background: linear-gradient(135deg, #FF3B30, #FF453A); /* High-visibility red alert gradient */
+    color: #FFF; 
+    font-weight: 800; 
+    font-size: 1rem; 
+    padding: 0 28px; 
+    height: 100%; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    letter-spacing: 0.8px; 
+    z-index: 10; 
+    position: relative; 
+    box-shadow: 10px 0 25px rgba(0,0,0,0.3); 
+    white-space: nowrap;
+}
+
+/* Draggable Touch-Ready Marquee Viewport Container */
+.marquee-container { 
+    overflow: hidden; 
+    width: 100%; 
+    display: flex; 
+    cursor: grab; 
+    user-select: none;
+}
+.marquee-container:active {
+    cursor: grabbing;
+}
+
+/* Enlarged Content Strip */
+.marquee-content { 
+    display: flex; 
+    white-space: nowrap; 
+    animation: continuousMarquee 40s linear infinite; 
+    gap: 70px; /* Expanded space between items */
+    padding-left: 30px; 
+    align-items: center;
+    will-change: transform;
+}
+
+/* Pause animations when manually dragging or hovering */
+.marquee-container.is-dragging .marquee-content {
+    animation-play-state: paused !important;
+}
+.marquee-content:hover { 
+    animation-play-state: paused; 
+} 
+
+.marquee-item { 
+    display: inline-flex; 
+    align-items: center; 
+    color: #FFFFFF; 
+    font-weight: 700; 
+    font-size: 1.2rem; /* Clean and bold text readability */
+    gap: 14px; 
+}
+
+.ticker-thumb { 
+    width: 36px; 
+    height: 36px; 
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 2px solid #FFF; 
+    background: #FFF; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.ticker-date { 
+    color: #00E6FF; /* High-contrast clear cyan text value */
+    font-weight: 800; 
+    background: rgba(0, 230, 255, 0.12); 
+    padding: 4px 14px; 
+    border-radius: 50px; 
+    font-size: 0.95rem; 
+    border: 1.5px solid rgba(0, 230, 255, 0.3); 
+    letter-spacing: 0.5px;
+}
 
 /* Dynamic Layout Grids */
 .services-section, .gallery-section { padding: 90px 0; background-color: #F1F5F9; }
@@ -106,7 +189,7 @@ body { font-family: var(--font-stack); color: var(--text-main); background-color
 .contact-info h2 { font-size: 2.4rem; font-weight: 800; color: var(--primary-deep); letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 20px; }
 .contact-info p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 40px; max-width: 480px; }
 
-/* FIX: Perfect horizontal alignment layout context matching image_5.png */
+/* FIX: Perfect horizontal alignment layout context */
 .contact-methods { display: flex; flex-direction: column; gap: 25px; }
 .method-item { display: flex; align-items: flex-start; gap: 20px; }
 .method-icon-box { width: 54px; height: 54px; background: rgba(0, 82, 204, 0.06); border-radius: 14px; display: flex; justify-content: center; align-items: center; font-size: 1.3rem; color: var(--primary-glow); flex-shrink: 0; margin-top: 2px; }
@@ -122,7 +205,7 @@ body { font-family: var(--font-stack); color: var(--text-main); background-color
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid #E2E8F0; border-radius: 10px; font-family: var(--font-stack); background: #F8FAFC; transition: var(--transition-fluid); font-size: 0.95rem; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-glow); background: #FFF; box-shadow: 0 0 0 4px rgba(0, 82, 204, 0.08); }
 
-/* Instant Loading Skeleton Animation Elements (Banish data wait states!) */
+/* Instant Loading Skeleton Animation Elements */
 .skeleton-card { height: 320px; background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: loadingPulse 1.5s infinite; border-radius: var(--radius-premium); }
 .skeleton-strip { height: 75px; background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: loadingPulse 1.5s infinite; border-radius: 12px; margin-bottom: 15px; }
 .skeleton-gallery-item { height: 210px; background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: loadingPulse 1.5s infinite; border-radius: var(--radius-premium); }
@@ -132,6 +215,9 @@ body { font-family: var(--font-stack); color: var(--text-main); background-color
 @keyframes loadingPulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes animate-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+.animate-pulse { animation: animate-pulse 1.8s infinite; }
 .dynamic-float { animation: floatingMotion 4s ease-in-out infinite; }
 @keyframes floatingMotion { 0%, 100% { transform: translateY(0) translateX(20px); } 50% { transform: translateY(-10px) translateX(20px); } }
 
