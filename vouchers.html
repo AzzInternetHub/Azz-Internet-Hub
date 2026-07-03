@@ -4,300 +4,351 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Azz Internet Hub - Premium E-Voucher Terminal</title>
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Paystack Integration -->
     <script src="https://js.paystack.co/v2/inline.js"></script>
+    
     <style>
         :root {
-            --deep-navy: #041E42;
-            --royal-blue: #0A2540;
-            --accent-gold: #F2A900;
+            --primary-blue: #0A2540; /* Deep premium blue matching image_5.png */
+            --accent-blue: #0052FF;
             --pure-white: #FFFFFF;
-            --muted-bg: #F8FAFC;
-            --border-color: #E2E8F0;
-            --text-dark: #1E293B;
+            --bg-light: #F8FAFC;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --border-clean: #E2E8F0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background-color: var(--muted-bg);
+            background-color: var(--bg-light);
             color: var(--text-dark);
-            background-image: radial-gradient(rgba(4, 30, 66, 0.03) 1px, transparent 0);
-            background-size: 24px 24px;
-            padding-bottom: 3rem;
+            line-height: 1.6;
+            padding-bottom: 4rem;
         }
 
-        header {
-            background: linear-gradient(135deg, var(--deep-navy) 0%, var(--royal-blue) 100%);
-            color: var(--pure-white);
-            padding: 2.5rem 1rem;
-            text-align: center;
-            border-bottom: 4px solid var(--accent-gold);
-            position: relative;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        header p {
-            font-size: 1rem;
-            color: #94A3B8;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        main {
-            max-width: 650px;
-            margin: -2rem auto 0 auto;
-            padding: 0 1rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .card {
+        /* Premium Minimalist Navbar Layer inspired by image_5.png */
+        nav {
             background: var(--pure-white);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 40px rgba(4, 30, 66, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
-            border: 1px solid var(--border-color);
+            padding: 0.85rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid var(--border-clean);
         }
 
-        h2 {
-            color: var(--deep-navy);
-            margin-bottom: 2rem;
-            font-size: 1.5rem;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        /* Logo slot layout matching image_5.png circular layout frame */
+        .logo-box {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border-clean);
+            overflow: hidden;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-box i {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+        }
+
+        .brand-text {
+            color: var(--primary-blue);
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: -0.3px;
+        }
+
+        .menu-icon {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        /* Hero Portal Introduction Block */
+        .hero-banner {
+            background: var(--pure-white);
+            padding: 3.5rem 1.5rem 2rem 1.5rem;
             text-align: center;
-            font-weight: 700;
+            border-bottom: 1px solid var(--border-clean);
+            margin-bottom: 2rem;
         }
 
-        .checker-selector {
+        .hero-banner h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Flexible Form Wrapper */
+        main {
+            max-width: 580px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+        }
+
+        .terminal-card {
+            background: var(--pure-white);
+            border-radius: 20px;
+            padding: 2.25rem;
+            border: 1px solid var(--border-clean);
+            box-shadow: 0 12px 34px rgba(15, 23, 42, 0.03);
+        }
+
+        .terminal-card h2 {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Clean Selector Tabs */
+        .checker-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1.75rem;
         }
 
-        .type-option {
-            border: 2px solid var(--border-color);
+        .selector-tab {
+            border: 1px solid var(--border-clean);
             border-radius: 12px;
-            padding: 1.25rem;
+            padding: 1.2rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+            transition: all 0.2s ease;
             background: var(--pure-white);
+            position: relative;
         }
 
-        .type-option i {
-            font-size: 2.2rem;
-            color: var(--deep-navy);
-            margin-bottom: 0.75rem;
+        .selector-tab i {
+            font-size: 1.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            transition: color 0.2s;
         }
 
-        .type-option p {
-            font-weight: 700;
-            color: var(--royal-blue);
-            font-size: 1rem;
+        .selector-tab p {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dark);
         }
 
-        .type-option input[type="radio"] {
+        .selector-tab input[type="radio"] {
             position: absolute;
             opacity: 0;
         }
 
-        .type-option:hover {
-            border-color: var(--deep-navy);
-            transform: translateY(-2px);
+        .selector-tab:hover {
+            border-color: var(--primary-blue);
+            background: #FAFAFA;
         }
 
-        .type-option.selected {
-            border-color: var(--deep-navy);
-            background: rgba(4, 30, 66, 0.02);
-            box-shadow: 0 4px 12px rgba(4, 30, 66, 0.06);
+        .selector-tab.active {
+            border-color: var(--primary-blue);
+            background: rgba(10, 37, 64, 0.02);
         }
 
-        .type-option.selected::after {
+        .selector-tab.active i {
+            color: var(--primary-blue);
+        }
+
+        .selector-tab.active::after {
             content: "\f058";
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             position: absolute;
-            top: 12px;
-            right: 12px;
-            color: var(--deep-navy);
-            font-size: 1.1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 700;
-            color: var(--deep-navy);
-            font-size: 0.95rem;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 0.85rem 1.2rem;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
+            top: 10px;
+            right: 10px;
+            color: var(--primary-blue);
             font-size: 1rem;
+        }
+
+        /* Form Controls styling */
+        .form-block {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-block label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 0.9rem;
+        }
+
+        .form-block input, .form-block select {
+            width: 100%;
+            padding: 0.8rem 1.1rem;
+            border: 1px solid var(--border-clean);
+            border-radius: 10px;
+            font-size: 0.95rem;
             color: var(--text-dark);
-            font-weight: 500;
-            transition: all 0.2s ease;
-            background-color: var(--muted-bg);
-        }
-
-        .form-group input:focus, .form-group select:focus {
+            background-color: #FAFAFA;
             outline: none;
-            border-color: var(--deep-navy);
-            background-color: var(--pure-white);
-            box-shadow: 0 0 0 4px rgba(4, 30, 66, 0.05);
+            transition: all 0.2s ease;
         }
 
-        /* Tier Promo Badges */
-        .promo-notice {
-            font-size: 0.8rem;
-            color: var(--accent-gold);
-            font-weight: 700;
+        .form-block input:focus, .form-block select:focus {
+            border-color: var(--primary-blue);
+            background-color: var(--pure-white);
+            box-shadow: 0 0 0 4px rgba(10, 37, 64, 0.04);
+        }
+
+        .hint-text {
+            font-size: 0.78rem;
+            color: var(--text-muted);
             margin-top: 4px;
             display: block;
         }
 
-        .price-tag {
-            background: var(--deep-navy);
+        /* Elegant Cost Display Panel */
+        .invoice-summary {
+            background: var(--primary-blue);
             color: var(--pure-white);
-            padding: 1.25rem 1.5rem;
+            padding: 1.25rem;
             border-radius: 12px;
-            margin-bottom: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            border-left: 6px solid var(--accent-gold);
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            margin: 1.75rem 0;
         }
 
-        .price-row {
+        .invoice-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
         }
 
-        .price-row span:first-child {
-            font-size: 0.95rem;
+        .invoice-row span {
+            font-size: 0.85rem;
             color: #94A3B8;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             font-weight: 700;
         }
 
-        .price-amount {
-            font-size: 1.5rem;
-            color: var(--accent-gold);
-            font-family: 'Courier New', monospace;
+        .invoice-total {
+            font-size: 1.35rem;
+            color: var(--pure-white);
             font-weight: 700;
         }
 
-        .unit-rate-indicator {
-            font-size: 0.8rem;
+        .invoice-rate {
+            font-size: 0.78rem;
             color: #94A3B8;
-            align-self: flex-end;
-            font-weight: 600;
+            text-align: right;
+            margin-top: 2px;
         }
 
-        .btn-submit {
+        .btn-pay-action {
             width: 100%;
-            background: linear-gradient(180deg, var(--deep-navy) 0%, var(--royal-blue) 100%);
+            background: var(--primary-blue);
             color: var(--pure-white);
             border: none;
-            padding: 1.1rem;
-            font-size: 1.15rem;
-            font-weight: 700;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
             border-radius: 10px;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 4px 12px rgba(4, 30, 66, 0.15);
-            transition: all 0.2s ease;
+            gap: 10px;
+            transition: background-color 0.2s;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(4, 30, 66, 0.25);
+        .btn-pay-action:hover {
+            background: #11355A;
         }
 
-        .voucher-display {
-            margin-top: 2.5rem;
+        /* Result Panel Structure */
+        .voucher-output-panel {
+            margin-top: 2rem;
             display: none;
-            animation: fadeIn 0.4s ease-out forwards;
         }
 
-        .voucher-display h3 {
-            color: var(--deep-navy);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .voucher-output-panel h3 {
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.75rem;
         }
 
-        .vouchers-wrapper {
-            max-height: 350px;
+        .vouchers-scrollbox {
+            max-height: 280px;
             overflow-y: auto;
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-clean);
             border-radius: 12px;
             background: #FAFAFA;
             padding: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        .voucher-text-block {
+        .voucher-card-item {
             background: var(--pure-white);
-            border: 1px solid var(--border-color);
-            border-left: 4px solid var(--deep-navy);
-            border-radius: 6px;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.05rem;
-            font-weight: 700;
+            border: 1px solid var(--border-clean);
+            border-left: 4px solid var(--primary-blue);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: var(--text-dark);
             white-space: pre-wrap;
-            color: #0F172A;
-            line-height: 1.5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .voucher-text-block:last-child {
+        .voucher-card-item:last-child {
             margin-bottom: 0;
         }
 
-        .action-buttons {
+        .grid-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
 
-        .btn-action {
-            padding: 0.85rem;
+        .btn-utility {
+            padding: 0.75rem;
             border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -307,161 +358,156 @@
             transition: all 0.2s;
         }
 
-        .btn-download {
-            background-color: var(--accent-gold);
-            color: var(--deep-navy);
-            border: none;
+        .btn-save {
+            background: #F1F5F9;
+            color: var(--text-dark);
+            border: 1px solid var(--border-clean);
         }
 
-        .btn-download:hover {
-            background-color: #E09B00;
+        .btn-save:hover {
+            background: #E2E8F0;
         }
 
-        .btn-portal {
-            background-color: transparent;
-            border: 2px solid var(--deep-navy);
-            color: var(--deep-navy);
+        .btn-redirect {
+            background: transparent;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
         }
 
-        .btn-portal:hover {
-            background-color: rgba(4, 30, 66, 0.04);
+        .btn-redirect:hover {
+            background: rgba(10, 37, 64, 0.02);
         }
 
-        .support-box {
-            text-align: center;
-            margin-top: 2.5rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--royal-blue);
-        }
-
-        .support-box a {
-            color: var(--deep-navy);
-            text-decoration: none;
-            font-weight: 800;
-            border-bottom: 2px solid var(--accent-gold);
-            padding-bottom: 2px;
-            margin-left: 4px;
-        }
-
-        .loader-overlay {
+        /* System Action Overlays */
+        .system-loader {
             position: fixed;
-            top:0; left:0; right:0; bottom:0;
-            background: rgba(4, 30, 66, 0.95);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 37, 64, 0.98);
             display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            z-index: 1000;
+            z-index: 2000;
             color: var(--pure-white);
         }
 
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255,255,255,0.1);
-            border-top: 5px solid var(--accent-gold);
+        .spin-ring {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid var(--pure-white);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: rotating 0.7s linear infinite;
+            margin-bottom: 1.25rem;
         }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes rotating { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>AZZ INTERNET HUB</h1>
-        <p>Official Verification & Instant E-Voucher Terminal</p>
+    <!-- White Navigation bar layout template matching image_5.png -->
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <div class="logo-box">
+                <!-- Drop image asset path <img src="logo.png"> here when desired -->
+                <i class="fas fa-globe"></i>
+            </div>
+            <div class="brand-text">Azz Internet Hub</div>
+        </a>
+        <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <header class="hero-banner">
+        <h1>E-Voucher Terminal</h1>
+        <p>Instant automated generation and verification tokens delivered instantly.</p>
     </header>
 
     <main>
-        <div class="card">
-            <h2>Select Premium Service Category</h2>
-            <form id="checkerForm">
+        <div class="terminal-card">
+            <h2>Select Verification Category</h2>
+            <form id="purchaseForm">
                 
-                <div class="checker-selector">
-                    <div class="type-option selected" onclick="selectType(this, 'WASSCE')">
+                <div class="checker-grid">
+                    <div class="selector-tab active" onclick="toggleSelection(this, 'WASSCE')">
                         <i class="fas fa-graduation-cap"></i>
                         <p>WASSCE Checker</p>
-                        <input type="radio" name="checkerType" value="WASSCE" checked>
+                        <input type="radio" name="tokenCategory" value="WASSCE" checked>
                     </div>
-                    <div class="type-option" onclick="selectType(this, 'BECE')">
+                    <div class="selector-tab" onclick="toggleSelection(this, 'BECE')">
                         <i class="fas fa-book-open"></i>
                         <p>BECE Checker</p>
-                        <input type="radio" name="checkerType" value="BECE">
+                        <input type="radio" name="tokenCategory" value="BECE">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="voucherQuantity">Purchase Quantity</label>
-                    <select id="voucherQuantity" onchange="calculateTieredPricing()">
+                <div class="form-block">
+                    <label for="purchaseQty">Token Quantity</label>
+                    <select id="purchaseQty" onchange="runPricingMatrix()">
                         <option value="1">1 Token</option>
                         <option value="2">2 Tokens</option>
                         <option value="3">3 Tokens</option>
                         <option value="4">4 Tokens (Bulk Discount)</option>
-                        <option value="5">5 Tokens (Wholesale Discount)</option>
+                        <option value="5">5 Tokens (Wholesale Rate)</option>
                         <option value="6">6 Tokens</option>
                         <option value="7">7 Tokens</option>
                         <option value="8">8 Tokens</option>
                         <option value="9">9 Tokens</option>
                         <option value="10">10 Tokens</option>
                     </select>
-                    <span class="promo-notice">* Bulk pricing drops automatically down to GH₵ 18.50 based on volume!</span>
+                    <span class="hint-text">* Volume tiers unlock pricing reductions automatically.</span>
                 </div>
 
-                <div class="price-tag">
-                    <div class="price-row">
-                        <span>Total Cost Summary:</span>
-                        <span class="price-amount" id="costSummary">GH₵ 25.00</span>
+                <div class="invoice-summary">
+                    <div class="invoice-row">
+                        <span>Total Payable Cost:</span>
+                        <div class="invoice-total" id="costText">GH₵ 25.00</div>
                     </div>
-                    <div class="unit-rate-indicator" id="unitRateSummary">Rate applied: GH₵ 25.00 per voucher</div>
+                    <div class="invoice-rate" id="rateText">Rate applied: GH₵ 25.00 per item</div>
                 </div>
 
-                <div class="form-group">
-                    <label for="studentName">Client Full Name</label>
-                    <input type="text" id="studentName" required placeholder="Aziz Zaroo Kamal">
+                <div class="form-block">
+                    <label for="clientName">Full Name</label>
+                    <input type="text" id="clientName" required placeholder="Aziz Zaroo Kamal">
                 </div>
 
-                <div class="form-group">
-                    <label for="studentEmail">Email Delivery Address</label>
-                    <input type="email" id="studentEmail" required placeholder="yourname@gmail.com">
+                <div class="form-block">
+                    <!-- Standardized form element ID name to trigger automatic Formspree target response tracking -->
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="yourname@gmail.com">
                 </div>
 
-                <div class="form-group">
-                    <label for="studentPhone">Active Contact Number</label>
-                    <input type="tel" id="studentPhone" required placeholder="024XXXXXXX">
+                <div class="form-block">
+                    <label for="clientPhone">WhatsApp Contact</label>
+                    <input type="tel" id="clientPhone" required placeholder="024XXXXXXX">
                 </div>
 
-                <button type="button" onclick="startPayment()" class="btn-submit">
-                    <i class="fas fa-shield-alt"></i> Complete Secure Purchase
+                <button type="button" onclick="initializeGatewayPayment()" class="btn-pay-action">
+                    <i class="fas fa-lock"></i> Authorize Secure Payment
                 </button>
             </form>
 
-            <div class="voucher-display" id="voucherDisplay">
-                <h3><i class="fas fa-ticket"></i> Issued Vouchers</h3>
-                <div class="vouchers-wrapper" id="vouchersContainer"></div>
+            <!-- Results Output Interface Block -->
+            <div class="voucher-output-panel" id="outputPanel">
+                <h3><i class="fas fa-ticket"></i> Issued Token Records</h3>
+                <div class="vouchers-scrollbox" id="vouchersList"></div>
                 
-                <div class="action-buttons">
-                    <button class="btn-action btn-download" onclick="downloadVouchersFile()">
-                        <i class="fas fa-download"></i> Save as Text File
+                <div class="grid-buttons">
+                    <button class="btn-utility btn-save" onclick="saveTokensAsText()">
+                        <i class="fas fa-download"></i> Download Codes
                     </button>
-                    <a href="https://ghana.waecdirect.org" target="_blank" class="btn-action btn-portal">
-                        <i class="fas fa-external-link-alt"></i> Access WAEC Site
+                    <a href="https://ghana.waecdirect.org" target="_blank" class="btn-utility btn-redirect">
+                        <i class="fas fa-external-link-alt"></i> Access Portal
                     </a>
                 </div>
             </div>
         </div>
-
-        <div class="support-box">
-            <p>Encountered an issue? Contact our helpdesk:<a href="tel:+233598160732"><i class="fas fa-phone-alt"></i> 059 816 0732</a></p>
-        </div>
     </main>
 
-    <div class="loader-overlay" id="loader">
-        <div class="spinner"></div>
-        <p style="margin-top: 20px; font-weight: 700; letter-spacing: 0.5px;" id="loaderText">Securing transaction...</p>
+    <!-- Seamless Status Loading Animation Overlay -->
+    <div class="system-loader" id="systemLoader">
+        <div class="spin-ring"></div>
+        <p style="font-weight: 600;" id="loaderStatusMsg">Securing payment authorization node...</p>
     </div>
 
     <script>
@@ -469,144 +515,140 @@
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw3eex5UEvZHTFbECL9q_DaSPqACsOOE5mP9TjEjUGL2P-UtvN7CiQfTEyLB9C6sV2q/exec"; 
         const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeoavpld";
         
-        let compiledVouchersText = ""; 
+        let storedTokenTextOutput = ""; 
 
-        function selectType(element, typeValue) {
-            document.querySelectorAll('.type-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
+        function toggleSelection(element, typeValue) {
+            document.querySelectorAll('.selector-tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
             element.querySelector('input[type="radio"]').checked = true;
         }
 
-        // Live Dynamic Multi-Tiered Pricing Matrix Calculation
-        function calculateTieredPricing() {
-            const qty = parseInt(document.getElementById('voucherQuantity').value);
-            let unitPrice = 25.0;
+        function runPricingMatrix() {
+            const qty = parseInt(document.getElementById('purchaseQty').value);
+            let unitCost = 25.0;
 
             if (qty === 4) {
-                unitPrice = 23.0;
-            } else if (qty >= 5 && qty <= 10) {
-                unitPrice = 18.5;
+                unitCost = 23.0;
+            } else if (qty >= 5) {
+                unitCost = 18.5;
             }
 
-            const totalCost = qty * unitPrice;
+            const runningTotal = qty * unitCost;
+            document.getElementById('costText').innerText = `GH₵ ${runningTotal.toFixed(2)}`;
+            document.getElementById('rateText').innerText = `Rate applied: GH₵ ${unitCost.toFixed(2)} per voucher`;
             
-            // Format to 2 decimal places to handle the .50 cleaner
-            document.getElementById('costSummary').innerText = `GH₵ ${totalCost.toFixed(2)}`;
-            document.getElementById('unitRateSummary').innerText = `Rate applied: GH₵ ${unitPrice.toFixed(2)} per voucher`;
-            
-            return totalCost;
+            return runningTotal;
         }
 
-        function startPayment() {
-            const form = document.getElementById('checkerForm');
-            if(!form.checkValidity()) {
-                form.reportValidity();
+        function initializeGatewayPayment() {
+            const formObj = document.getElementById('purchaseForm');
+            if(!formObj.checkValidity()) {
+                formObj.reportValidity();
                 return;
             }
 
-            const email = document.getElementById('studentEmail').value;
-            const qty = parseInt(document.getElementById('voucherQuantity').value);
-            
-            // Fetch precise cost calculated by matrix
-            const totalGHS = calculateTieredPricing();
-            const totalAmountPesewas = Math.round(totalGHS * 100); 
+            const targetEmail = document.getElementById('email').value;
+            const chosenQty = parseInt(document.getElementById('purchaseQty').value);
+            const totalGHS = runPricingMatrix();
+            const totalPesewas = Math.round(totalGHS * 100); 
 
-            const paystack = new PaystackPop();
-            paystack.newTransaction({
+            const paystackInstance = new PaystackPop();
+            paystackInstance.newTransaction({
                 key: PAYSTACK_PUBLIC_KEY,
-                email: email,
-                amount: totalAmountPesewas,
+                email: targetEmail,
+                amount: totalPesewas,
                 currency: "GHS",
-                onSuccess: (transaction) => {
-                    processVoucherDistribution(transaction.reference, qty, totalGHS);
+                onSuccess: (tx) => {
+                    executeDistributionEngine(tx.reference, chosenQty, totalGHS);
                 },
                 onCancel: () => {
-                    alert("Transaction terminated by client.");
+                    alert("Gateway initialization terminated by client.");
                 }
             });
         }
 
-        async function processVoucherDistribution(referenceId, quantity, totalPaid) {
-            const checkerType = document.querySelector('input[name="checkerType"]:checked').value;
-            const name = document.getElementById('studentName').value;
-            const email = document.getElementById('studentEmail').value;
-            const phone = document.getElementById('studentPhone').value;
+        async function executeDistributionEngine(gatewayRef, quantity, netPaid) {
+            const tokenCategory = document.querySelector('input[name="tokenCategory"]:checked').value;
+            const fullName = document.getElementById('clientName').value;
+            const emailInput = document.getElementById('email').value;
+            const contactPhone = document.getElementById('clientPhone').value;
             
-            const loader = document.getElementById('loader');
-            const loaderText = document.getElementById('loaderText');
+            const overlayLoader = document.getElementById('systemLoader');
+            const statusLabel = document.getElementById('loaderStatusMsg');
             
-            loader.style.display = 'flex';
-            loaderText.innerText = "Authorizing transaction token...";
+            overlayLoader.style.display = 'flex';
+            statusLabel.innerText = "Allocating secure serial data rows...";
             
             try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                const sheetResponse = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'cors',
                     body: JSON.stringify({ 
-                        checkerType: checkerType,
+                        checkerType: tokenCategory,
                         quantity: quantity,
-                        paystackReference: referenceId
+                        paystackReference: gatewayRef
                     })
                 });
                 
-                const result = await response.json();
+                const responseData = await sheetResponse.json();
                 
-                if (result.result === 'success') {
-                    const container = document.getElementById('vouchersContainer');
-                    container.innerHTML = ""; 
-                    compiledVouchersText = ""; 
+                if (responseData.result === 'success') {
+                    const listContainer = document.getElementById('vouchersList');
+                    listContainer.innerHTML = ""; 
+                    storedTokenTextOutput = ""; 
 
-                    result.vouchers.forEach((v, index) => {
-                        const templateText = `${checkerType}-CHECKER\nSERIAL NO: ${v.serial}\nPIN: ${v.pin}\nLink - ${result.link}`;
-                        
-                        compiledVouchersText += `--- Voucher ${index + 1} ---\n${templateText}\n\n`;
+                    responseData.vouchers.forEach((voucher, idx) => {
+                        const individualCardText = `${tokenCategory}-CHECKER\nSERIAL: ${voucher.serial}\nPIN: ${voucher.pin}\nPortal Link: ${responseData.link}`;
+                        storedTokenTextOutput += `[Item ${idx + 1}]\n${individualCardText}\n\n`;
 
-                        const block = document.createElement('div');
-                        block.className = 'voucher-text-block';
-                        block.innerText = templateText;
-                        container.appendChild(block);
+                        const itemBlock = document.createElement('div');
+                        itemBlock.className = 'voucher-card-item';
+                        itemBlock.innerText = individualCardText;
+                        listContainer.appendChild(itemBlock);
                     });
 
-                    loaderText.innerText = "Transmitting dispatch confirmations...";
+                    statusLabel.innerText = "Transmitting copy confirmations to your email address...";
                     
+                    /* Formspree submission passes data row fields. Setting key field to "email" ensures 
+                       automated routing functions can map copy templates directly back to the customer. */
                     await fetch(FORMSPREE_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            _subject: `Azz Internet Hub - E-Voucher Purchase Receipt`,
-                            ClientName: name,
-                            ClientEmail: email,
-                            ClientPhone: phone,
-                            Product: checkerType,
-                            Quantity: quantity,
-                            TotalAmountCharged: `GH₵ ${totalPaid.toFixed(2)}`,
-                            GatewayReference: referenceId,
-                            VouchersData: compiledVouchersText
+                            _subject: `Purchase Receipt - ${tokenCategory} E-Voucher Terminal`,
+                            name: fullName,
+                            email: emailInput, 
+                            phone: contactPhone,
+                            product: tokenCategory,
+                            quantity: quantity,
+                            totalCharged: `GH₵ ${netPaid.toFixed(2)}`,
+                            paymentReference: gatewayRef,
+                            voucherDataDetails: storedTokenTextOutput
                         })
                     });
 
-                    loader.style.display = 'none';
-                    document.getElementById('voucherDisplay').style.display = 'block';
-                    document.getElementById('voucherDisplay').scrollIntoView({ behavior: 'smooth' });
+                    overlayLoader.style.display = 'none';
+                    document.getElementById('outputPanel').style.display = 'block';
+                    document.getElementById('outputPanel').scrollIntoView({ behavior: 'smooth' });
                     
                 } else {
-                    loader.style.display = 'none';
-                    alert("Allocation Warning: Verification clear but transaction execution timed out. Reach support with Ref: " + referenceId);
+                    overlayLoader.style.display = 'none';
+                    alert("Allocation Warning: Transaction complete but processing timed out. Contact support with Ref: " + gatewayRef);
                 }
-            } catch (err) {
-                loader.style.display = 'none';
-                alert("Network communication interrupt. Retain reference code: " + referenceId);
+            } catch (networkError) {
+                overlayLoader.style.display = 'none';
+                alert("Cloud transmission error encountered. Please keep your Reference Code: " + gatewayRef);
             }
         }
 
-        function downloadVouchersFile() {
-            if(!compiledVouchersText) return;
-            const blob = new Blob([compiledVouchersText], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `Azz_Hub_Vouchers_${Date.now()}.txt`;
-            link.click();
-            URL.revokeObjectURL(link.href);
+        function saveTokensAsText() {
+            if(!storedTokenTextOutput) return;
+            const dataBlob = new Blob([storedTokenTextOutput], { type: 'text/plain' });
+            const anchorElement = document.createElement('a');
+            anchorElement.href = URL.createObjectURL(dataBlob);
+            anchorElement.download = `Azz_Hub_Tokens_${Date.now()}.txt`;
+            anchorElement.click();
+            URL.revokeObjectURL(anchorElement.href);
         }
     </script>
 </body>
