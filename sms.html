@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIH - Administrative Engine</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        :root[data-theme="dark"] {
+            --bg: #0b0f19; 
+            --surface: #131c2e; 
+            --surface-card: #1e294b; 
+            --border: rgba(255,255,255,0.06);
+            --text-main: #f8fafc; 
+            --text-muted: #94a3b8; 
+            --input-bg: #070b14;
+            --primary: #0a4da2; 
+            --primary-light: #3b82f6; 
+            --accent: #10b981;
+            --shadow: 0 20px 25px -5px rgba(0,0,0,0.4), 0 10px 10px -5px rgba(0,0,0,0.3);
+            --focus-ring: rgba(59, 130, 246, 0.4);
+        }
+        :root[data-theme="light"] {
+            --bg: #f8fafc; 
+            --surface: #ffffff; 
+            --surface-card: #f1f5f9; 
+            --border: rgba(0,0,0,0.06);
+            --text-main: #0f172a; 
+            --text-muted: #64748b; 
+            --input-bg: #ffffff;
+            --primary: #0a4da2; 
+            --primary-light: #1e70e0; 
+            --accent: #10b981;
+            --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+            --focus-ring: rgba(10, 77, 162, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.25s ease, border-color 0.25s ease; }
+        
+        body { background-color: var(--bg); color: var(--text-main); min-height: 100vh; padding: 24px; }
+        .hidden { display: none !important; }
+        
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            max-width: 1400px; 
+            margin: 0 auto 24px auto; 
+            padding: 20px 28px; 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+        }
+        .brand { display: flex; align-items: center; gap: 16px; }
+        .brand-logo { 
+            width: 44px; 
+            height: 44px; 
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-weight: 800; 
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(10, 77, 162, 0.25);
+        }
+        .theme-btn { 
+            background: var(--surface-card); 
+            border: 1px solid var(--border); 
+            color: var(--text-main); 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .theme-btn:hover { transform: scale(1.03); }
+
+        .layout-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
+        @media(max-width: 1024px) { .layout-grid { grid-template-columns: 1fr; } }
+        
+        .sidebar { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            padding: 16px; 
+            border-radius: 24px; 
+            box-shadow: var(--shadow); 
+            height: fit-content; 
+        }
+        .nav-link { 
+            background: transparent; 
+            border: none; 
+            color: var(--text-muted); 
+            padding: 14px 18px; 
+            border-radius: 14px; 
+            font-size: 14px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            text-align: left; 
+        }
+        .nav-link:hover { color: var(--text-main); background: var(--surface-card); }
+        .nav-link.active { 
+            background: var(--primary); 
+            color: white; 
+            box-shadow: 0 8px 16px -4px rgba(10, 77, 162, 0.35); 
+        }
+        
+        .main-pane { display: flex; flex-direction: column; gap: 24px; }
+        
+        .glass-card { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            border-radius: 24px; 
+            padding: 32px; 
+            box-shadow: var(--shadow); 
+        }
+        .glass-card h2 { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .glass-card p.sub { font-size: 13.5px; color: var(--text-muted); margin-bottom: 24px; }
+        
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .stat-bubble { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            padding: 24px; 
+            display: flex; 
+            align-items: center; 
+            gap: 18px; 
+            box-shadow: var(--shadow); 
+        }
+        .stat-bubble .icon { 
+            width: 48px; 
+            height: 48px; 
+            border-radius: 14px; 
+            background: var(--surface-card); 
+            color: var(--primary-light); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+        }
+        .stat-bubble h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        .stat-bubble span { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .form-control { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border-radius: 12px; 
+            background: var(--input-bg); 
+            border: 1px solid var(--border); 
+            color: var(--text-main); 
+            font-size: 14px; 
+            font-weight: 500;
+            outline: none; 
+        }
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px var(--focus-ring);
+        }
+        textarea.form-control { resize: vertical; }
+
+        .check-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 13.5px; font-weight: 600; cursor: pointer; color: var(--text-main); }
+        .check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); }
+
+        .btn { 
+            padding: 13px 24px; 
+            border: none; 
+            border-radius: 12px; 
+            background: var(--primary); 
+            color: white; 
+            font-size: 14px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: 0 4px 12px rgba(10, 77, 162, 0.15);
+        }
+        .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+        .btn-success { background: var(--accent); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); }
+        .btn-success:hover { background: #14d393; }
+        
+        .split-view { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+        @media(max-width: 1200px) { .split-view { grid-template-columns: 1fr; } }
+        
+        .phone-mock { 
+            background: #020617; 
+            border: 12px solid #334155; 
+            border-radius: 36px; 
+            height: 380px; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: var(--shadow);
+        }
+        .phone-scroller { flex-grow: 1; padding: 10px 0; overflow-y: auto; display: flex; align-items: flex-end; }
+        .bubble-sms { 
+            background: var(--primary); 
+            color: white; 
+            padding: 12px 16px; 
+            border-radius: 18px; 
+            border-bottom-left-radius: 4px; 
+            font-size: 13px; 
+            line-height: 1.5; 
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .table-area { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--input-bg); box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; white-space: nowrap; }
+        th { background: var(--surface-card); color: var(--text-muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.75px; }
+        td strong { color: var(--text-main); font-weight: 600; }
+
+        .drop-zone { 
+            border: 2px dashed var(--border); 
+            border-radius: 16px; 
+            padding: 40px 24px; 
+            text-align: center; 
+            cursor: pointer; 
+            background: var(--input-bg); 
+        }
+        .drop-zone:hover { border-color: var(--primary-light); background: var(--surface-card); }
+        
+        #toastWidget { 
+            position: fixed; 
+            bottom: 24px; 
+            right: 24px; 
+            padding: 16px 28px; 
+            border-radius: 14px; 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            color: var(--text-main); 
+            font-weight: 700; 
+            font-size: 14px; 
+            display: none; 
+            box-shadow: var(--shadow); 
+            z-index: 9999; 
+        }
+
+        /* Responsive Breakpoint Adaptations */
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            header { padding: 14px 16px; border-radius: 14px; margin-bottom: 16px; }
+            .brand h1 { font-size: 13px !important; }
+            .brand p { font-size: 8px !important; }
+            .glass-card { padding: 20px; border-radius: 18px; }
+            .split-view { grid-template-columns: 1fr; }
+            th, td { padding: 12px 14px; font-size: 13px; }
+            .stats-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand"><div class="brand-logo">AIH</div><div><h1 style="font-size:16px; font-weight:800;">Azz Internet Hub</h1><p style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Cloud Serverless Core Command</p></div></div>
+        <button class="theme-btn" onclick="togglePlatformTheme()"><span class="material-symbols-outlined" style="font-size: 20px;" id="themeIcon">light_mode</span></button>
+    </header>
+
+    <div class="layout-grid">
+        <div class="sidebar">
+            <button class="nav-link active" onclick="switchPane('pane-broadcast', this)"><span class="material-symbols-outlined">campaign</span> Broadcast Node</button>
+            <button class="nav-link" onclick="switchPane('pane-directory', this)"><span class="material-symbols-outlined">contact_phone</span> Database Index</button>
+            <button class="nav-link" onclick="switchPane('pane-ingestion', this)"><span class="material-symbols-outlined">upload_file</span> Data Ingestion</button>
+        </div>
+
+        <div class="main-pane">
+            <div class="stats-row">
+                <div class="stat-bubble"><div class="icon"><span class="material-symbols-outlined">cloud_done</span></div><div class="metric-data"><h3 id="statSender">AZZ HUB</h3><span>Sender Alpha Header</span></div></div>
+                <div class="stat-bubble"><div class="icon"><span class="material-symbols-outlined">database</span></div><div class="metric-data"><h3 id="statCount">0</h3><span>Monitored Records</span></div></div>
+            </div>
+
+            <div id="pane-broadcast" class="tab-pane">
+                <div class="split-view">
+                    <div class="glass-card">
+                        <h2>Initialize Transmission Node</h2>
+                        <p class="sub">Specify segment tracking targets to fire cloud bulk payloads.</p>
+                        <form onsubmit="executeMassBroadcast(event)">
+                            <div class="form-group">
+                                <label>Target Stream Segment</label>
+                                <select id="targetSegment" class="form-control">
+                                    <option value="ALL">Universal Directory Index (All Channels)</option>
+                                    <option value="students">Students Channel Only</option>
+                                    <option value="general">General Broadcast Members</option>
+                                    <option value="business">Business Systems</option>
+                                </select>
+                            </div>
+                            <label class="check-row">
+                                <input type="checkbox" id="personalizeCheck" onchange="refreshView()">
+                                Inject Dynamic Recipient Name Parameter (`Hello [Name], ...`)
+                            </label>
+                            <div class="form-group">
+                                <label>SMS Payload Announcement Text</label>
+                                <textarea id="smsPayloadText" class="form-control" rows="5" required placeholder="Type broadcast message text string here..." oninput="refreshView()"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success"><span class="material-symbols-outlined">bolt</span> Fire Mass Dispatch Bundle</button>
+                        </form>
+                    </div>
+                    <div class="glass-card">
+                        <h2>Terminal Output</h2>
+                        <p class="sub">Live message text generation simulation.</p>
+                        <div class="phone-mock">
+                            <div class="phone-scroller"><div class="bubble-sms" id="previewContainer">Waiting for character input sequence...</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-directory" class="tab-pane hidden">
+                <div class="glass-card">
+                    <h2>Directory Matrix Records</h2>
+                    <p class="sub">Inline track modifications auto-save and write straight to your live Google Sheet columns.</p>
+                    <div class="table-area">
+                        <table>
+                            <thead><tr><th>Profile Name</th><th>Target Terminal Phone</th><th>System Source</th><th>Segment Track</th><th>Console</th></tr></thead>
+                            <tbody id="directoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-ingestion" class="tab-pane hidden">
+                <div class="glass-card">
+                    <h2>Data Ingestion Interfaces</h2>
+                    <p class="sub">Import matrix files locally or issue cloud fetches from different tabs.</p>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+                        <div>
+                            <label style="font-size:11px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:8px;">EXCEL / CSV FILE DISPATCHER</label>
+                            <div class="drop-zone" onclick="document.getElementById('fileUploadPicker').click()">
+                                <span class="material-symbols-outlined" style="font-size:32px; color:var(--primary-light);">upload_file</span>
+                                <p style="font-size:13px; font-weight:700; margin-top:8px;">Stream Local Document Data</p>
+                                <input type="file" id="fileUploadPicker" class="hidden" accept=".xlsx, .xls, .csv" onchange="loadExcelRoster(event)">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size:11px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:8px;">DYNAMIC GOOGLE SHEET CONNECTOR</label>
+                            <input type="text" id="syncTabInput" class="form-control" placeholder="Target Tab Identification Name (e.g. Sheet1)" style="margin-bottom:12px;">
+                            <button class="btn" style="width:100%;" onclick="executeCloudSync()"><span class="material-symbols-outlined">sync</span> Trigger Tab Record Pull</button>
+                        </div>
+                    </div>
+                    <div id="batchProcessArea" class="hidden" style="margin-top:20px;">
+                        <h4 style="font-size:13px; margin-bottom:10px;">Buffer Matrix Queue (<span id="queueSizeText">0</span> rows detected)</h4>
+                        <button class="btn btn-success" style="width:100%;" onclick="pushBufferToDatabase()">Commit Queued Parameters to Sheet Datastore</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastWidget">Operational Update Applied.</div>
+
+    <script>
+        const BACKEND_URL = "https://script.google.com/macros/s/AKfycbzOAB5UrGTjjF5tZrDDkC8_xjitJh_HRRrrr-Lhm0H1RnA3qFstwp-B7Tnv6Yqv90Q3wQ/exec";
+        let memoryRoster = [];
+        let executionBuffer = [];
+
+        document.addEventListener('DOMContentLoaded', () => { refreshDashboardContext(); });
+
+        function switchPane(id, triggerElement) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.remove('hidden');
+            triggerElement.classList.add('active');
+        }
+
+        function togglePlatformTheme() {
+            const h = document.documentElement;
+            const t = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            h.setAttribute('data-theme', t);
+            document.getElementById('themeIcon').textContent = t === 'dark' ? 'light_mode' : 'dark_mode';
+        }
+
+        function triggerNotification(msg) {
+            const w = document.getElementById('toastWidget');
+            w.textContent = msg; w.style.display = 'block';
+            setTimeout(() => { w.style.display = 'none'; }, 4000);
+        }
+
+        function runRemoteQuery(action, dataObj = {}) {
+            return new Promise((resolve) => {
+                const uniqueCallbackName = "jsonp_callback_" + Math.round(Math.random() * 1000000);
+                window[uniqueCallbackName] = function(data) {
+                    delete window[uniqueCallbackName];
+                    document.getElementById(uniqueCallbackName).remove();
+                    resolve(data);
+                };
+                const encoderUrl = BACKEND_URL + "?action=" + encodeURIComponent(action) + "&data=" + encodeURIComponent(JSON.stringify(dataObj)) + "&callback=" + uniqueCallbackName;
+                const scriptLoaderTag = document.createElement("script");
+                scriptLoaderTag.id = uniqueCallbackName;
+                scriptLoaderTag.src = encoderUrl;
+                scriptLoaderTag.onerror = function() {
+                    delete window[uniqueCallbackName];
+                    scriptLoaderTag.remove();
+                    resolve({ success: false, message: "Network connection request error." });
+                };
+                document.body.appendChild(scriptLoaderTag);
+            });
+        }
+
+        async function refreshDashboardContext() {
+            const res = await runRemoteQuery('GET_DASHBOARD_DATA');
+            if(res && res.success) {
+                memoryRoster = res.students || [];
+                document.getElementById('statCount').textContent = memoryRoster.length;
+                if(res.config) {
+                    document.getElementById('statSender').textContent = res.config.senderIdHeader || "AZZ HUB";
+                }
+                renderInteractiveDirectory();
+            } else {
+                triggerNotification("Matrix Sync Exception: " + (res ? res.message : "Invalid response layout returned."));
+                renderInteractiveDirectory();
+            }
+        }
+
+        function renderInteractiveDirectory() {
+            const tBody = document.getElementById('directoryTableBody');
+            tBody.innerHTML = '';
+            if(memoryRoster.length === 0) {
+                tBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:30px;">No workspace rows resolved from database index.</td></tr>`;
+                return;
+            }
+            memoryRoster.forEach(lead => {
+                const name = lead.fullName || lead.name || "Unnamed Record";
+                const phone = lead.phone || lead.phoneNumber || "";
+                const source = lead.source || "DIRECT";
+                const activeLevel = String(lead.segment || lead.level || 'general').toLowerCase().trim();
+                tBody.innerHTML += `
+                    <tr>
+                        <td><strong>${name}</strong></td>
+                        <td>${phone}</td>
+                        <td><span style="font-size:11px; opacity:0.6; font-weight:700;">${source}</span></td>
+                        <td>
+                            <select class="form-control" style="padding:6px 10px; font-size:13px; width:130px;" onchange="updateSegmentAllocation('${phone}', this.value)">
+                                <option value="students" ${activeLevel==='students'?'selected':''}>Students</option>
+                                <option value="general" ${activeLevel==='general'?'selected':''}>General</option>
+                                <option value="business" ${activeLevel==='business'?'selected':''}>Business</option>
+                            </select>
+                        </td>
+                        <td><button class="btn" style="padding:8px 16px; font-size:12px;" onclick="triggerDirectPing('${name}','${phone}')">Ping</button></td>
+                    </tr>`;
+            });
+        }
+
+        async function updateSegmentAllocation(phoneNum, computedStatusString) {
+            triggerNotification("Syncing configuration changes with cloud cells...");
+            const res = await runRemoteQuery('UPDATE_CONTACT_STATUS', { phone: phoneNum, status: computedStatusString });
+            if(res && res.success) {
+                triggerNotification("Google Sheet row updated successfully.");
+            } else {
+                triggerNotification("Sync failed: " + (res ? res.message : "Unknown cell row mismatch."));
+            }
+            refreshDashboardContext();
+        }
+
+        function refreshView() {
+            let coreStr = document.getElementById('smsPayloadText').value;
+            if(document.getElementById('personalizeCheck').checked) coreStr = coreStr.replace(/\[Name\]/g, "Abigail Mensah");
+            document.getElementById('previewContainer').textContent = coreStr || "Waiting for character input sequence...";
+        }
+
+        function loadExcelRoster(e) {
+            const activeFile = e.target.files[0]; if(!activeFile) return;
+            const fileReader = new FileReader();
+            fileReader.onload = function(evt) {
+                const dataBuffer = new Uint8Array(evt.target.result);
+                const workbookAsset = XLSX.read(dataBuffer, { type: 'array' });
+                const arrayRows = XLSX.utils.sheet_to_json(workbookAsset.Sheets[workbookAsset.SheetNames[0]], { header: 1 });
+                executionBuffer = [];
+                for(let idx = 1; idx < arrayRows.length; idx++) {
+                    if(arrayRows[idx][1]) {
+                        executionBuffer.push({ fullName: arrayRows[idx][0] || 'Unlabeled Lead', phone: String(arrayRows[idx][1]).trim(), level: String(arrayRows[idx][2] || 'general').toLowerCase().trim() });
+                    }
+                }
+                document.getElementById('queueSizeText').textContent = executionBuffer.length;
+                document.getElementById('batchProcessArea').classList.remove('hidden');
+                triggerNotification("Workbook file loaded into processing memory cache.");
+            };
+            fileReader.readAsArrayBuffer(activeFile);
+        }
+
+        async function pushBufferToDatabase() {
+            triggerNotification("Writing array row structures into Google Sheet cells...");
+            const res = await runRemoteQuery('IMPORT_STUDENT_BATCH', { students: executionBuffer });
+            document.getElementById('batchProcessArea').classList.add('hidden');
+            if(res && res.success) {
+                triggerNotification("Batch import logged successfully.");
+            } else {
+                triggerNotification("Batch failure: " + (res ? res.message : "Upload rejected."));
+            }
+            refreshDashboardContext();
+        }
+
+        async function executeCloudSync() {
+            const targetedTab = document.getElementById('syncTabInput').value || 'Sheet1';
+            triggerNotification(`Importing structural profile records from tab: [${targetedTab}]...`);
+            const statusMessage = await runRemoteQuery('SYNC_CLOUD_SHEET_TAB', { tabName: targetedTab });
+            if(statusMessage) {
+                triggerNotification(statusMessage.message);
+            }
+            refreshDashboardContext();
+        }
+
+        async function triggerDirectPing(name, phone) {
+            const body = prompt(`Deploy individual Hubtel SMS packet string to ${name}:`);
+            if(!body) return;
+            triggerNotification("Sending tracking payload request package...");
+            const res = await runRemoteQuery('SEND_PERSONALIZED_BULK', { leads: [{ name, phone }], messageTemplate: body, personalize: false });
+            if(res && res.success) {
+                triggerNotification("Transmission routed to carrier channel successfully.");
+            } else {
+                triggerNotification("Ping failed: " + (res ? res.message : "API execution anomaly."));
+            }
+        }
+
+        async function executeMassBroadcast(event) {
+            event.preventDefault();
+            const chosenSegment = document.getElementById('targetSegment').value;
+            const rawTextPayload = document.getElementById('smsPayloadText').value;
+            const personalizationFlag = document.getElementById('personalizeCheck').checked;
+            let structuralTargets = memoryRoster;
+            if(chosenSegment !== 'ALL') {
+                structuralTargets = memoryRoster.filter(r => {
+                    const lev = String(r.segment || r.level || '').toLowerCase().trim();
+                    return lev === chosenSegment.toLowerCase().trim();
+                });
+            }
+            if(structuralTargets.length === 0) return triggerNotification("Error: Target matching query resolved to 0 values.");
+            triggerNotification(`Firing personalized payloads across ${structuralTargets.length} customer nodes...`);
+            const frameworkStatus = await runRemoteQuery('SEND_PERSONALIZED_BULK', {
+                leads: structuralTargets.map(t => ({ name: t.fullName || t.name, phone: t.phone || t.phoneNumber })),
+                messageTemplate: rawTextPayload,
+                personalize: personalizationFlag
+            });
+            if(frameworkStatus) {
+                triggerNotification(frameworkStatus.message);
+            }
+            document.getElementById('smsPayloadText').value = '';
+            refreshView();
+            refreshDashboardContext();
+        }
+    </script>
+</body>
+</html>
