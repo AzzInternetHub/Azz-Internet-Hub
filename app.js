@@ -1,18 +1,18 @@
 const CONFIG = {
     DATABASE_ENDPOINT: 'https://script.google.com/macros/s/AKfycbwBogUFSRvMb7NQwnE-TLvrfjirNlItVzzvsyAp3u_oLz_qtFNFETGcIt-UIbVdUlX3/exec',
     CACHE_KEY: 'azz_hub_local_database_cache',
-    CACHE_EXPIRY: 10 * 60 * 1000 // 10 minutes cache expiration check
+    CACHE_EXPIRY: 10 * 60 * 1000 // 10 minutes cache lifespan
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initLeadForm();
     initLightbox();
-    loadSiteDataPipeline(); // Runs the lightning-fast loader
-    initManualTickerControls(); // Initializes manual marquee slider interaction
+    loadSiteDataPipeline(); 
+    initManualTickerControls();
 });
 
-/* Mobile Menu System Controller */
+/* Mobile Menu Toggle Handler */
 function initNavigation() {
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.main-nav');
@@ -23,28 +23,25 @@ function initNavigation() {
     }
 }
 
-/* Data Pipeline Controller supporting Cache-First Architecture */
+/* Stale-While-Revalidate Engine */
 function loadSiteDataPipeline() {
     const cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
     const cachedTime = localStorage.getItem(CONFIG.CACHE_KEY + '_time');
     const now = Date.now();
 
     if (cachedData && cachedTime && (now - cachedTime < CONFIG.CACHE_EXPIRY)) {
-        const parsedData = JSON.parse(cachedData);
-        renderAllComponents(parsedData);
-        
-        // Quietly fetch data in the background to check for adjustments
+        // Render instantly from local persistent storage (0ms wait time)
+        renderAllComponents(JSON.parse(cachedData));
         fetchRealtimeDataSilently();
     } else {
         fetchRealtimeDataWithUIUpdate();
     }
 }
 
-/* Normal load when cache is empty */
 async function fetchRealtimeDataWithUIUpdate() {
     try {
         const response = await fetch(CONFIG.DATABASE_ENDPOINT);
-        if (!response.ok) throw new Error('Data transmission breakdown.');
+        if (!response.ok) throw new Error('Data pipeline network response error.');
         const data = await response.json();
         
         localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
@@ -52,12 +49,11 @@ async function fetchRealtimeDataWithUIUpdate() {
         
         renderAllComponents(data);
     } catch (error) {
-        console.error('Data pipeline exception:', error);
+        console.error('Data pipeline error:', error);
         removeLoadingSkeletons();
     }
 }
 
-/* Background synchronization check */
 async function fetchRealtimeDataSilently() {
     try {
         const response = await fetch(CONFIG.DATABASE_ENDPOINT);
@@ -68,12 +64,12 @@ async function fetchRealtimeDataSilently() {
             renderAllComponents(data); 
         }
     } catch (e) {
-        console.log('Silent sync skipped. Using active cache layer safely.');
+        // Fail silently; cache continues handling display smoothly
     }
 }
 
-/* Renders all layout components */
 function renderAllComponents(data) {
+    if (!data) return;
     renderServices(data.services);
     renderAnnouncements(data.announcements);
     renderSchools(data.schools);
@@ -81,18 +77,18 @@ function renderAllComponents(data) {
     renderGallery(data.gallery);
 }
 
-/* Service Presentation Framework Card Component Rendering */
+/* Render Services with Lazy Loading Images */
 function renderServices(services) {
     const container = document.getElementById('services-container');
     if (!container || !services || services.length === 0) return;
     container.innerHTML = '';
     
+    const fragment = document.createDocumentFragment();
     services.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'service-card';
-        card.style.animationDelay = `${index * 0.1}s`;
         
-        let imageHTML = item.imageurl ? `<img src="${item.imageurl}" class="service-card-img" alt="${item.title}">` : '';
+        let imageHTML = item.imageurl ? `<img src="${item.imageurl}" class="service-card-img" alt="${item.title}" loading="lazy">` : '';
         let iconHTML = (!item.imageurl && item.icon) ? `<div class="service-icon"><i class="${item.icon}"></i></div>` : '';
         
         card.innerHTML = `
@@ -101,19 +97,19 @@ function renderServices(services) {
             <h3>${item.title}</h3>
             <p>${item.description}</p>
         `;
-        container.appendChild(card);
+        fragment.appendChild(card);
     });
+    container.appendChild(fragment);
 }
 
-/* Live News/Announcements Element Card Array Generation */
 function renderAnnouncements(items) {
     const container = document.getElementById('announcements-list');
     if (!container || !items || items.length === 0) return;
     
     container.innerHTML = items.map((item, index) => {
-        let imgHTML = item.imageurl ? `<img src="${item.imageurl}" class="dynamic-item-img" alt="">` : '';
+        let imgHTML = item.imageurl ? `<img src="${item.imageurl}" class="dynamic-item-img" alt="" loading="lazy">` : '';
         return `
-            <div class="dynamic-item" style="animation-delay: ${index * 0.15}s">
+            <div class="dynamic-item" style="animation-delay: ${index * 0.1}s">
                 ${imgHTML}
                 <div class="dynamic-item-content">
                     <h4>${item.title}</h4>
@@ -124,15 +120,14 @@ function renderAnnouncements(items) {
     }).join('');
 }
 
-/* Academic Admissions System Processing Rows Loop Rendering */
 function renderSchools(schools) {
     const container = document.getElementById('schools-list');
     if (!container || !schools || schools.length === 0) return;
     
     container.innerHTML = schools.map((sch, index) => {
-        let imgHTML = sch.imageurl ? `<img src="${sch.imageurl}" class="dynamic-item-img" alt="">` : '';
+        let imgHTML = sch.imageurl ? `<img src="${sch.imageurl}" class="dynamic-item-img" alt="" loading="lazy">` : '';
         return `
-            <div class="dynamic-item" style="animation-delay: ${index * 0.12}s">
+            <div class="dynamic-item" style="animation-delay: ${index * 0.1}s">
                 ${imgHTML}
                 <div class="dynamic-item-content">
                     <h4>${sch.name}</h4>
@@ -143,13 +138,12 @@ function renderSchools(schools) {
     }).join('');
 }
 
-/* Infinite Marquee Loop Parser */
 function renderDeadlines(deadlines) {
     const ticker = document.getElementById('deadlines-ticker');
     if (!ticker || !deadlines || deadlines.length === 0) return;
     
     const tickerItemsHTML = deadlines.map(d => {
-        let imgHTML = d.imageurl ? `<img src="${d.imageurl}" class="ticker-thumb" alt="">` : '<i class="fas fa-university" style="color:#0066FF;"></i>';
+        let imgHTML = d.imageurl ? `<img src="${d.imageurl}" class="ticker-thumb" alt="" loading="lazy">` : '<i class="fas fa-university" style="color:#0066FF;"></i>';
         return `
             <div class="marquee-item">
                 ${imgHTML}
@@ -159,32 +153,32 @@ function renderDeadlines(deadlines) {
         `;
     }).join('');
 
-    // Multiplying structural items sets an infinite horizon loop without showing empty page gaps
-    ticker.innerHTML = tickerItemsHTML + tickerItemsHTML + tickerItemsHTML + tickerItemsHTML;
+    ticker.innerHTML = tickerItemsHTML + tickerItemsHTML + tickerItemsHTML;
 }
 
-/* Core Media Image Gallery Layout Elements Generation */
 function renderGallery(images) {
     const container = document.getElementById('gallery-container');
     if (!container || !images || images.length === 0) return;
     container.innerHTML = '';
     
+    const fragment = document.createDocumentFragment();
     images.forEach(url => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
-        item.innerHTML = `<img src="${url}" alt="Azz Hub Visual Asset" loading="lazy">`;
-        container.appendChild(item);
+        item.innerHTML = `<img src="${url}" alt="Azz Hub Media Asset" loading="lazy">`;
+        fragment.appendChild(item);
     });
+    container.appendChild(fragment);
 }
 
 function removeLoadingSkeletons() {
     ['services-container', 'schools-list', 'announcements-list', 'gallery-container'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = `<p class="error-text">Failed to sync live data rows.</p>`;
+        if (el) el.innerHTML = `<p style="color:#64748B;">Live synchronization unavailable at the moment.</p>`;
     });
 }
 
-/* Lightbox System Controller */
+/* Lightbox Framework */
 function initLightbox() {
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
@@ -203,7 +197,7 @@ function initLightbox() {
     lightbox?.addEventListener('click', (e) => { if (e.target === lightbox) closeAction(); });
 }
 
-/* Lead Submission Form Handler */
+/* Lead Submission Form */
 function initLeadForm() {
     const form = document.getElementById('lead-form');
     const feedback = document.getElementById('form-feedback');
@@ -243,7 +237,7 @@ function initLeadForm() {
     });
 }
 
-/* Interactive Manual Mouse Drag and Touch Swipe Marquee Controls Engine */
+/* Touch & Drag Marquee Slider Controls */
 function initManualTickerControls() {
     const container = document.querySelector('.marquee-container');
     const content = document.querySelector('.marquee-content');
@@ -288,7 +282,6 @@ function initManualTickerControls() {
         content.style.transform = `translateX(${currentTranslation + walk}px)`;
     });
 
-    /* Touch support mechanics for smartphones */
     container.addEventListener('touchstart', (e) => {
         isDown = true;
         startX = e.touches[0].pageX - container.offsetLeft;
