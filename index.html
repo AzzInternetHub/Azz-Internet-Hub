@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Azz Internet Hub | Forge Your Digital Destiny</title>
+    
+    <!-- Speed & Resource Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://script.google.com">
+
+    <!-- Web Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Sticky Glassmorphism Header -->
     <header class="site-header">
         <div class="container header-container">
             <a href="#" class="logo-area">
-                <img src="logo.png" alt="Azz Internet Hub Logo" class="site-logo">
+                <img src="logo.png" alt="Azz Internet Hub Logo" class="site-logo" width="160" height="46">
             </a>
             <button class="menu-toggle" aria-label="Toggle Navigation">
                 <i class="fas fa-bars"></i>
@@ -33,11 +40,12 @@
         </div>
     </header>
 
+    <!-- Modern Hero Section -->
     <section id="home" class="hero-section">
         <div class="container hero-container">
             <div class="hero-content">
                 <span class="badge"><i class="fas fa-bolt"></i> Ultimate Digital Delivery Hub</span>
-                <h1>Forge your digital destiny with Azz Internet Hub</h1>
+                <h1>Forge your digital destiny with <span class="text-gradient">Azz Internet Hub</span></h1>
                 <p>We deliver premium internet solutions, professional graphic assets, and rapid institutional admissions applications straight to your comfort zone.</p>
                 <div class="hero-actions">
                     <a href="#services" class="btn btn-primary">Our Services <i class="fas fa-arrow-right"></i></a>
@@ -46,13 +54,23 @@
             </div>
             <div class="hero-graphic">
                 <div class="accent-glow"></div>
-                <div class="floating-card dynamic-float" style="animation-delay: 0s;"><i class="fas fa-graduation-cap"></i> Tertiary Applications</div>
-                <div class="floating-card dynamic-float" style="animation-delay: 1.5s;"><i class="fas fa-passport"></i> Ghanaian Passport Documentation</div>
-                <div class="floating-card dynamic-float" style="animation-delay: 3s;"><i class="fas fa-palette"></i> Photoshop-Style Graphics</div>
+                <div class="floating-card dynamic-float" style="animation-delay: 0s;">
+                    <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <span>Tertiary Applications</span>
+                </div>
+                <div class="floating-card dynamic-float" style="animation-delay: 1.5s;">
+                    <div class="card-icon"><i class="fas fa-passport"></i></div>
+                    <span>Ghanaian Passport Documentation</span>
+                </div>
+                <div class="floating-card dynamic-float" style="animation-delay: 3s;">
+                    <div class="card-icon"><i class="fas fa-palette"></i></div>
+                    <span>Photoshop-Style Graphics</span>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Interactive Live Deadlines Marquee Ticker -->
     <div class="ticker-wrapper-modern">
         <div class="ticker-label-modern">
             <i class="fas fa-bullhorn animate-pulse"></i> LIVE DEADLINES
@@ -64,6 +82,7 @@
         </div>
     </div>
 
+    <!-- Services Grid -->
     <section id="services" class="services-section">
         <div class="container">
             <div class="section-header">
@@ -79,6 +98,7 @@
         </div>
     </section>
 
+    <!-- Admissions & Live Announcements -->
     <section id="portal-news" class="info-section">
         <div class="container grid-2col">
             <div class="info-block">
@@ -98,6 +118,7 @@
         </div>
     </section>
 
+    <!-- Media Gallery Section -->
     <section id="gallery" class="gallery-section">
         <div class="container">
             <div class="section-header">
@@ -113,6 +134,7 @@
         </div>
     </section>
 
+    <!-- Contact & Lead Generation Form -->
     <section id="contact" class="contact-section">
         <div class="container grid-2col">
             <div class="contact-info">
@@ -139,11 +161,11 @@
                     <h3>Submit Inquiry / Request</h3>
                     <div class="form-group">
                         <label for="customer-name">Full Name</label>
-                        <input type="text" id="customer-name" required placeholder="John Doe">
+                        <input type="text" id="customer-name" required placeholder="John Doe" autocomplete="name">
                     </div>
                     <div class="form-group">
                         <label for="customer-phone">Phone Number</label>
-                        <input type="tel" id="customer-phone" required placeholder="e.g. 0598160732">
+                        <input type="tel" id="customer-phone" required placeholder="e.g. 0598160732" autocomplete="tel">
                     </div>
                     <div class="form-group">
                         <label for="service-type">Required Service</label>
@@ -171,25 +193,29 @@
         </div>
     </section>
 
+    <!-- Floating Actions -->
     <div class="floating-actions">
-        <a href="https://wa.me/233598160732" class="float-btn whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp">
+        <a href="https://wa.me/233598160732" class="float-btn whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
 
+    <!-- Lightbox Modal Container -->
     <div id="lightbox" class="lightbox" aria-hidden="true">
         <span class="lightbox-close">&times;</span>
         <div class="lightbox-content-wrapper">
-            <img class="lightbox-content" id="lightbox-img" alt="Fullscreen view">
+            <img class="lightbox-content" id="lightbox-img" alt="Fullscreen view" loading="lazy">
         </div>
     </div>
 
+    <!-- Site Footer -->
     <footer class="site-footer">
         <div class="container">
             <p>&copy; 2026 Azz Internet Hub. All Rights Reserved. We deliver at your comfort zone.</p>
         </div>
     </footer>
 
-    <script src="app.js"></script>
+    <!-- Async / Non-blocking Script Initialization -->
+    <script src="app.js" defer></script>
 </body>
 </html>
