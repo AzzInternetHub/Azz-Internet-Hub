@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Azz Internet Hub - Premium E-Voucher Terminal</title>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,182 +15,163 @@
     
     <style>
         :root {
-            --primary-blue: #0A2540; /* Deep premium blue matching image_5.png */
+            --primary-blue: #0A2540;
             --accent-blue: #0052FF;
             --pure-white: #FFFFFF;
-            --bg-light: #F8FAFC;
+            --bg-light: #F4F7FA;
             --text-dark: #0F172A;
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
+            --card-shadow: 0 20px 40px rgba(10, 37, 64, 0.05);
+            --radius-lg: 18px;
+            --radius-md: 12px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-light);
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 82, 255, 0.04) 0%, transparent 60%);
             color: var(--text-dark);
-            line-height: 1.6;
-            padding-bottom: 4rem;
+            line-height: 1.5;
+            padding-bottom: 3rem;
+            min-height: 100vh;
         }
 
-        /* Premium Minimalist Navbar Layer inspired by image_5.png */
         nav {
             background: var(--pure-white);
-            padding: 0.85rem 5%;
+            padding: 1rem 5%;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
             border-bottom: 1px solid var(--border-clean);
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
             text-decoration: none;
-        }
-
-        /* Logo slot layout matching image_5.png circular layout frame */
-        .logo-box {
-            width: 42px;
-            height: 42px;
-            background: var(--bg-light);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid var(--border-clean);
-            overflow: hidden;
-        }
-
-        .logo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .logo-box i {
-            color: var(--primary-blue);
-            font-size: 1.2rem;
         }
 
         .brand-text {
             color: var(--primary-blue);
             font-weight: 800;
-            font-size: 1.15rem;
-            letter-spacing: -0.3px;
+            font-size: 1.2rem;
+            letter-spacing: -0.4px;
+            text-transform: uppercase;
         }
 
-        .menu-icon {
-            font-size: 1.3rem;
-            color: var(--primary-blue);
-            cursor: pointer;
-        }
-
-        /* Hero Portal Introduction Block */
         .hero-banner {
-            background: var(--pure-white);
-            padding: 3.5rem 1.5rem 2rem 1.5rem;
+            padding: 2.25rem 1.25rem 1.5rem 1.25rem;
             text-align: center;
-            border-bottom: 1px solid var(--border-clean);
-            margin-bottom: 2rem;
         }
 
         .hero-banner h1 {
-            font-size: 1.85rem;
+            font-size: clamp(1.4rem, 5vw, 1.85rem);
             font-weight: 800;
             color: var(--primary-blue);
             letter-spacing: -0.5px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .hero-banner p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            max-width: 500px;
+            font-size: clamp(0.85rem, 3.5vw, 0.95rem);
+            max-width: 460px;
             margin: 0 auto;
+            line-height: 1.45;
         }
 
-        /* Flexible Form Wrapper */
         main {
-            max-width: 580px;
+            max-width: 520px;
             margin: 0 auto;
-            padding: 0 1.25rem;
+            padding: 0 1rem;
         }
 
         .terminal-card {
             background: var(--pure-white);
-            border-radius: 20px;
-            padding: 2.25rem;
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 1.5rem;
             border: 1px solid var(--border-clean);
-            box-shadow: 0 12px 34px rgba(15, 23, 42, 0.03);
+            box-shadow: var(--card-shadow);
         }
 
         .terminal-card h2 {
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             color: var(--primary-blue);
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             text-align: center;
+            letter-spacing: -0.2px;
         }
 
-        /* Clean Selector Tabs */
         .checker-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.75rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .selector-tab {
-            border: 1px solid var(--border-clean);
-            border-radius: 12px;
-            padding: 1.2rem;
+            border: 1.5px solid var(--border-clean);
+            border-radius: var(--radius-md);
+            padding: 1rem 0.75rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             background: var(--pure-white);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .selector-tab i {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             transition: color 0.2s;
         }
 
         .selector-tab p {
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-weight: 700;
+            font-size: 0.88rem;
             color: var(--text-dark);
         }
 
         .selector-tab input[type="radio"] {
             position: absolute;
             opacity: 0;
+            pointer-events: none;
         }
 
         .selector-tab:hover {
-            border-color: var(--primary-blue);
-            background: #FAFAFA;
+            border-color: var(--accent-blue);
+            background: #F8FAFC;
         }
 
         .selector-tab.active {
-            border-color: var(--primary-blue);
-            background: rgba(10, 37, 64, 0.02);
+            border-color: var(--accent-blue);
+            background: rgba(0, 82, 255, 0.03);
+            box-shadow: 0 4px 12px rgba(0, 82, 255, 0.08);
         }
 
         .selector-tab.active i {
+            color: var(--accent-blue);
+        }
+
+        .selector-tab.active p {
             color: var(--primary-blue);
         }
 
@@ -199,57 +180,67 @@
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             position: absolute;
-            top: 10px;
-            right: 10px;
-            color: var(--primary-blue);
-            font-size: 1rem;
+            top: 8px;
+            right: 8px;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
         }
 
-        /* Form Controls styling */
         .form-block {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.1rem;
         }
 
         .form-block label {
             display: block;
-            margin-bottom: 0.4rem;
-            font-weight: 600;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
             color: var(--primary-blue);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .form-block input, .form-block select {
             width: 100%;
-            padding: 0.8rem 1.1rem;
-            border: 1px solid var(--border-clean);
-            border-radius: 10px;
+            height: 48px;
+            padding: 0 1rem;
+            border: 1.5px solid var(--border-clean);
+            border-radius: var(--radius-md);
             font-size: 0.95rem;
             color: var(--text-dark);
             background-color: #FAFAFA;
             outline: none;
             transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-block select {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230F172A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.65rem auto;
+            padding-right: 2.2rem;
         }
 
         .form-block input:focus, .form-block select:focus {
-            border-color: var(--primary-blue);
+            border-color: var(--accent-blue);
             background-color: var(--pure-white);
-            box-shadow: 0 0 0 4px rgba(10, 37, 64, 0.04);
+            box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.1);
         }
 
         .hint-text {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 4px;
+            margin-top: 5px;
             display: block;
         }
 
-        /* Elegant Cost Display Panel */
         .invoice-summary {
-            background: var(--primary-blue);
+            background: linear-gradient(135deg, #0A2540 0%, #00152B 100%);
             color: var(--pure-white);
-            padding: 1.25rem;
-            border-radius: 12px;
-            margin: 1.75rem 0;
+            padding: 1.15rem 1.25rem;
+            border-radius: var(--radius-md);
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 20px rgba(10, 37, 64, 0.12);
         }
 
         .invoice-row {
@@ -259,79 +250,86 @@
         }
 
         .invoice-row span {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #94A3B8;
             text-transform: uppercase;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .invoice-total {
-            font-size: 1.35rem;
-            color: var(--pure-white);
-            font-weight: 700;
+            font-size: 1.3rem;
+            color: #4DE2A6;
+            font-weight: 800;
         }
 
         .invoice-rate {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: #94A3B8;
             text-align: right;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
         .btn-pay-action {
             width: 100%;
-            background: var(--primary-blue);
+            height: 52px;
+            background: var(--accent-blue);
             color: var(--pure-white);
             border: none;
-            padding: 1rem;
             font-size: 1rem;
-            font-weight: 600;
-            border-radius: 10px;
+            font-weight: 700;
+            border-radius: var(--radius-md);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            transition: background-color 0.2s;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 18px rgba(0, 82, 255, 0.25);
         }
 
-        .btn-pay-action:hover {
-            background: #11355A;
+        .btn-pay-action:active {
+            transform: scale(0.98);
         }
 
-        /* Result Panel Structure */
         .voucher-output-panel {
-            margin-top: 2rem;
+            margin-top: 1.75rem;
             display: none;
+            padding-top: 1.25rem;
+            border-top: 1px dashed var(--border-clean);
         }
 
         .voucher-output-panel h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--primary-blue);
             margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .vouchers-scrollbox {
-            max-height: 280px;
+            max-height: 260px;
             overflow-y: auto;
             border: 1px solid var(--border-clean);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             background: #FAFAFA;
-            padding: 1rem;
-            margin-bottom: 1.25rem;
+            padding: 0.85rem;
+            margin-bottom: 1.15rem;
         }
 
         .voucher-card-item {
             background: var(--pure-white);
             border: 1px solid var(--border-clean);
-            border-left: 4px solid var(--primary-blue);
+            border-left: 4px solid var(--accent-blue);
             border-radius: 8px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 0.75rem;
-            font-family: monospace;
-            font-size: 0.95rem;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.65rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.88rem;
             color: var(--text-dark);
             white-space: pre-wrap;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
 
         .voucher-card-item:last-child {
@@ -341,14 +339,14 @@
         .grid-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .btn-utility {
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            height: 46px;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -364,63 +362,68 @@
             border: 1px solid var(--border-clean);
         }
 
-        .btn-save:hover {
+        .btn-save:active {
             background: #E2E8F0;
         }
 
         .btn-redirect {
             background: transparent;
-            border: 1px solid var(--primary-blue);
+            border: 1.5px solid var(--primary-blue);
             color: var(--primary-blue);
         }
 
-        .btn-redirect:hover {
-            background: rgba(10, 37, 64, 0.02);
+        .btn-redirect:active {
+            background: rgba(10, 37, 64, 0.04);
         }
 
-        /* System Action Overlays */
         .system-loader {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(10, 37, 64, 0.98);
+            background: rgba(10, 37, 64, 0.95);
+            backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             z-index: 2000;
             color: var(--pure-white);
+            padding: 1.5rem;
+            text-align: center;
         }
 
         .spin-ring {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid var(--pure-white);
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(255,255,255,0.15);
+            border-top: 3px solid var(--pure-white);
             border-radius: 50%;
             animation: rotating 0.7s linear infinite;
             margin-bottom: 1.25rem;
         }
 
         @keyframes rotating { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 400px) {
+            .terminal-card {
+                padding: 1.35rem 1rem;
+            }
+            .grid-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- White Navigation bar layout template matching image_5.png -->
     <nav>
         <a href="index.html" class="nav-brand">
-            <div class="logo-box">
-                <!-- Drop image asset path <img src="logo.png"> here when desired -->
-                <i class="fas fa-globe"></i>
-            </div>
             <div class="brand-text">Azz Internet Hub</div>
         </a>
-        <div class="menu-icon"><i class="fas fa-bars"></i></div>
     </nav>
 
     <header class="hero-banner">
         <h1>E-Voucher Terminal</h1>
-        <p>Instant automated generation and verification tokens delivered instantly.</p>
+        <p>Instant automated generation and verification tokens delivered straight to your SMS and email.</p>
     </header>
 
     <main>
@@ -447,8 +450,8 @@
                         <option value="1">1 Token</option>
                         <option value="2">2 Tokens</option>
                         <option value="3">3 Tokens</option>
-                        <option value="4">4 Tokens (Bulk Discount)</option>
-                        <option value="5">5 Tokens (Wholesale Rate)</option>
+                        <option value="4">4 Tokens (GH₵ 22.00 / item)</option>
+                        <option value="5">5 Tokens (GH₵ 21.00 / item)</option>
                         <option value="6">6 Tokens</option>
                         <option value="7">7 Tokens</option>
                         <option value="8">8 Tokens</option>
@@ -461,9 +464,9 @@
                 <div class="invoice-summary">
                     <div class="invoice-row">
                         <span>Total Payable Cost:</span>
-                        <div class="invoice-total" id="costText">GH₵ 25.00</div>
+                        <div class="invoice-total" id="costText">GH₵ 1.00</div>
                     </div>
-                    <div class="invoice-rate" id="rateText">Rate applied: GH₵ 25.00 per item</div>
+                    <div class="invoice-rate" id="rateText">Rate applied: GH₵ 1.00 per item</div>
                 </div>
 
                 <div class="form-block">
@@ -472,22 +475,20 @@
                 </div>
 
                 <div class="form-block">
-                    <!-- Standardized form element ID name to trigger automatic Formspree target response tracking -->
                     <label for="email">Email Address</label>
                     <input type="email" id="email" required placeholder="yourname@gmail.com">
                 </div>
 
                 <div class="form-block">
-                    <label for="clientPhone">WhatsApp Contact</label>
+                    <label for="clientPhone">Active Phone Number (For Instant SMS)</label>
                     <input type="tel" id="clientPhone" required placeholder="024XXXXXXX">
                 </div>
 
                 <button type="button" onclick="initializeGatewayPayment()" class="btn-pay-action">
-                    <i class="fas fa-loc"></i> PAY NOW
+                    <i class="fas fa-lock"></i> PAY NOW
                 </button>
             </form>
 
-            <!-- Results Output Interface Block -->
             <div class="voucher-output-panel" id="outputPanel">
                 <h3><i class="fas fa-ticket"></i> Issued Token Records</h3>
                 <div class="vouchers-scrollbox" id="vouchersList"></div>
@@ -504,10 +505,9 @@
         </div>
     </main>
 
-    <!-- Seamless Status Loading Animation Overlay -->
     <div class="system-loader" id="systemLoader">
         <div class="spin-ring"></div>
-        <p style="font-weight: 600;" id="loaderStatusMsg">Securing payment authorization node...</p>
+        <p style="font-weight: 600;" id="loaderStatusMsg">Processing purchase...</p>
     </div>
 
     <script>
@@ -517,6 +517,10 @@
         
         let storedTokenTextOutput = ""; 
 
+        document.addEventListener('DOMContentLoaded', () => {
+            runPricingMatrix();
+        });
+
         function toggleSelection(element, typeValue) {
             document.querySelectorAll('.selector-tab').forEach(tab => tab.classList.remove('active'));
             element.classList.add('active');
@@ -525,17 +529,17 @@
 
         function runPricingMatrix() {
             const qty = parseInt(document.getElementById('purchaseQty').value);
-            let unitCost = 25.0;
+            let unitCost = 1.0;
 
             if (qty === 4) {
-                unitCost = 23.0;
+                unitCost = 22.0;
             } else if (qty >= 5) {
-                unitCost = 18.5;
+                unitCost = 21.0;
             }
 
             const runningTotal = qty * unitCost;
             document.getElementById('costText').innerText = `GH₵ ${runningTotal.toFixed(2)}`;
-            document.getElementById('rateText').innerText = `Rate applied: GH₵ ${unitCost.toFixed(2)} per voucher`;
+            document.getElementById('rateText').innerText = `Rate applied: GH₵ ${unitCost.toFixed(2)} per item`;
             
             return runningTotal;
         }
@@ -577,7 +581,7 @@
             const statusLabel = document.getElementById('loaderStatusMsg');
             
             overlayLoader.style.display = 'flex';
-            statusLabel.innerText = "Allocating secure serial data rows...";
+            statusLabel.innerText = "Processing purchase...";
             
             try {
                 const sheetResponse = await fetch(GOOGLE_SCRIPT_URL, {
@@ -586,7 +590,8 @@
                     body: JSON.stringify({ 
                         checkerType: tokenCategory,
                         quantity: quantity,
-                        paystackReference: gatewayRef
+                        paystackReference: gatewayRef,
+                        phone: contactPhone
                     })
                 });
                 
@@ -607,11 +612,13 @@
                         listContainer.appendChild(itemBlock);
                     });
 
-                    statusLabel.innerText = "Transmitting copy confirmations to your email address...";
+                    // Instantly hide overlay loader and show output codes on screen
+                    overlayLoader.style.display = 'none';
+                    document.getElementById('outputPanel').style.display = 'block';
+                    document.getElementById('outputPanel').scrollIntoView({ behavior: 'smooth' });
                     
-                    /* Formspree submission passes data row fields. Setting key field to "email" ensures 
-                       automated routing functions can map copy templates directly back to the customer. */
-                    await fetch(FORMSPREE_ENDPOINT, {
+                    // Dispatch Formspree email in the background without holding up the UI
+                    fetch(FORMSPREE_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -625,15 +632,11 @@
                             paymentReference: gatewayRef,
                             voucherDataDetails: storedTokenTextOutput
                         })
-                    });
+                    }).catch(e => console.log('Silent email error:', e));
 
-                    overlayLoader.style.display = 'none';
-                    document.getElementById('outputPanel').style.display = 'block';
-                    document.getElementById('outputPanel').scrollIntoView({ behavior: 'smooth' });
-                    
                 } else {
                     overlayLoader.style.display = 'none';
-                    alert("Allocation Warning: Transaction complete but processing timed out. Contact support with Ref: " + gatewayRef);
+                    alert("Allocation Warning: Transaction complete but inventory update failed. Contact support with Ref: " + gatewayRef);
                 }
             } catch (networkError) {
                 overlayLoader.style.display = 'none';
