@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Azz Internet Hub - Premium E-Voucher Terminal</title>
-    <!-- Fonts & Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Speed & Resource Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://js.paystack.co">
+    <link rel="dns-prefetch" href="https://script.google.com">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Paystack Integration -->
@@ -17,14 +22,16 @@
         :root {
             --primary-blue: #0A2540;
             --accent-blue: #0052FF;
+            --accent-glow: #003ECC;
             --pure-white: #FFFFFF;
             --bg-light: #F4F7FA;
             --text-dark: #0F172A;
             --text-muted: #64748B;
             --border-clean: #E2E8F0;
-            --card-shadow: 0 20px 40px rgba(10, 37, 64, 0.05);
-            --radius-lg: 18px;
+            --card-shadow: 0 20px 45px rgba(10, 37, 64, 0.07);
+            --radius-lg: 20px;
             --radius-md: 12px;
+            --transition-fluid: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -37,15 +44,20 @@
 
         body {
             background-color: var(--bg-light);
-            background-image: radial-gradient(circle at 50% 0%, rgba(0, 82, 255, 0.04) 0%, transparent 60%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 82, 255, 0.05) 0%, transparent 65%);
             color: var(--text-dark);
             line-height: 1.5;
             padding-bottom: 3rem;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         nav {
-            background: var(--pure-white);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 1rem 5%;
             display: flex;
             justify-content: center;
@@ -53,7 +65,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
             border-bottom: 1px solid var(--border-clean);
         }
 
@@ -66,8 +78,8 @@
         .brand-text {
             color: var(--primary-blue);
             font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: -0.4px;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
             text-transform: uppercase;
         }
 
@@ -77,10 +89,10 @@
         }
 
         .hero-banner h1 {
-            font-size: clamp(1.4rem, 5vw, 1.85rem);
+            font-size: clamp(1.45rem, 5vw, 1.95rem);
             font-weight: 800;
             color: var(--primary-blue);
-            letter-spacing: -0.5px;
+            letter-spacing: -0.6px;
             margin-bottom: 0.4rem;
         }
 
@@ -101,46 +113,49 @@
         .terminal-card {
             background: var(--pure-white);
             border-radius: var(--radius-lg);
-            padding: 1.75rem 1.5rem;
+            padding: 1.85rem 1.6rem;
             border: 1px solid var(--border-clean);
             box-shadow: var(--card-shadow);
+            transition: var(--transition-fluid);
+            will-change: transform;
         }
 
         .terminal-card h2 {
             font-size: 1.15rem;
             color: var(--primary-blue);
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 1.25rem;
             text-align: center;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.3px;
         }
 
         .checker-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
+            gap: 0.85rem;
             margin-bottom: 1.5rem;
         }
 
         .selector-tab {
             border: 1.5px solid var(--border-clean);
             border-radius: var(--radius-md);
-            padding: 1rem 0.75rem;
+            padding: 1.1rem 0.75rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: var(--transition-fluid);
             background: var(--pure-white);
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            will-change: transform, box-shadow;
         }
 
         .selector-tab i {
-            font-size: 1.5rem;
+            font-size: 1.55rem;
             color: var(--text-muted);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.45rem;
             transition: color 0.2s;
         }
 
@@ -159,12 +174,13 @@
         .selector-tab:hover {
             border-color: var(--accent-blue);
             background: #F8FAFC;
+            transform: translateY(-2px);
         }
 
         .selector-tab.active {
             border-color: var(--accent-blue);
-            background: rgba(0, 82, 255, 0.03);
-            box-shadow: 0 4px 12px rgba(0, 82, 255, 0.08);
+            background: rgba(0, 82, 255, 0.04);
+            box-shadow: 0 8px 20px rgba(0, 82, 255, 0.12);
         }
 
         .selector-tab.active i {
@@ -183,16 +199,16 @@
             top: 8px;
             right: 8px;
             color: var(--accent-blue);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .form-block {
-            margin-bottom: 1.1rem;
+            margin-bottom: 1.15rem;
         }
 
         .form-block label {
             display: block;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.4rem;
             font-weight: 700;
             color: var(--primary-blue);
             font-size: 0.85rem;
@@ -200,7 +216,7 @@
 
         .form-block input, .form-block select {
             width: 100%;
-            height: 48px;
+            height: 50px;
             padding: 0 1rem;
             border: 1.5px solid var(--border-clean);
             border-radius: var(--radius-md);
@@ -208,7 +224,7 @@
             color: var(--text-dark);
             background-color: #FAFAFA;
             outline: none;
-            transition: all 0.2s ease;
+            transition: var(--transition-fluid);
             -webkit-appearance: none;
             appearance: none;
         }
@@ -224,23 +240,23 @@
         .form-block input:focus, .form-block select:focus {
             border-color: var(--accent-blue);
             background-color: var(--pure-white);
-            box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 82, 255, 0.1);
         }
 
         .hint-text {
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 5px;
+            margin-top: 6px;
             display: block;
         }
 
         .invoice-summary {
             background: linear-gradient(135deg, #0A2540 0%, #00152B 100%);
             color: var(--pure-white);
-            padding: 1.15rem 1.25rem;
+            padding: 1.25rem 1.35rem;
             border-radius: var(--radius-md);
             margin: 1.5rem 0;
-            box-shadow: 0 8px 20px rgba(10, 37, 64, 0.12);
+            box-shadow: 0 10px 25px rgba(10, 37, 64, 0.15);
         }
 
         .invoice-row {
@@ -250,7 +266,7 @@
         }
 
         .invoice-row span {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: #94A3B8;
             text-transform: uppercase;
             font-weight: 700;
@@ -258,7 +274,7 @@
         }
 
         .invoice-total {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             color: #4DE2A6;
             font-weight: 800;
         }
@@ -267,25 +283,31 @@
             font-size: 0.75rem;
             color: #94A3B8;
             text-align: right;
-            margin-top: 3px;
+            margin-top: 4px;
         }
 
         .btn-pay-action {
             width: 100%;
-            height: 52px;
-            background: var(--accent-blue);
+            height: 54px;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-glow) 100%);
             color: var(--pure-white);
             border: none;
-            font-size: 1rem;
-            font-weight: 700;
+            font-size: 1.02rem;
+            font-weight: 800;
             border-radius: var(--radius-md);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 6px 18px rgba(0, 82, 255, 0.25);
+            transition: var(--transition-fluid);
+            box-shadow: 0 8px 22px rgba(0, 82, 255, 0.28);
+            will-change: transform, box-shadow;
+        }
+
+        .btn-pay-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 82, 255, 0.38);
         }
 
         .btn-pay-action:active {
@@ -293,19 +315,20 @@
         }
 
         .voucher-output-panel {
-            margin-top: 1.75rem;
+            margin-top: 1.85rem;
             display: none;
-            padding-top: 1.25rem;
+            padding-top: 1.35rem;
             border-top: 1px dashed var(--border-clean);
         }
 
         .voucher-output-panel h3 {
             font-size: 1.05rem;
             color: var(--primary-blue);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.85rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 800;
         }
 
         .vouchers-scrollbox {
@@ -316,6 +339,8 @@
             background: #FAFAFA;
             padding: 0.85rem;
             margin-bottom: 1.15rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-clean) transparent;
         }
 
         .voucher-card-item {
@@ -343,9 +368,9 @@
         }
 
         .btn-utility {
-            height: 46px;
+            height: 48px;
             border-radius: var(--radius-md);
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 700;
             cursor: pointer;
             display: flex;
@@ -353,7 +378,7 @@
             align-items: center;
             gap: 8px;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: var(--transition-fluid);
         }
 
         .btn-save {
@@ -362,8 +387,12 @@
             border: 1px solid var(--border-clean);
         }
 
-        .btn-save:active {
+        .btn-save:hover {
             background: #E2E8F0;
+        }
+
+        .btn-save:active {
+            transform: scale(0.98);
         }
 
         .btn-redirect {
@@ -372,15 +401,20 @@
             color: var(--primary-blue);
         }
 
+        .btn-redirect:hover {
+            background: rgba(10, 37, 64, 0.05);
+        }
+
         .btn-redirect:active {
-            background: rgba(10, 37, 64, 0.04);
+            transform: scale(0.98);
         }
 
         .system-loader {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(10, 37, 64, 0.95);
-            backdrop-filter: blur(4px);
+            background: rgba(10, 37, 64, 0.96);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -392,13 +426,14 @@
         }
 
         .spin-ring {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border: 3px solid rgba(255,255,255,0.15);
             border-top: 3px solid var(--pure-white);
             border-radius: 50%;
             animation: rotating 0.7s linear infinite;
             margin-bottom: 1.25rem;
+            will-change: transform;
         }
 
         @keyframes rotating { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -471,17 +506,17 @@
 
                 <div class="form-block">
                     <label for="clientName">Full Name</label>
-                    <input type="text" id="clientName" required placeholder="Aziz Zaroo Kamal">
+                    <input type="text" id="clientName" required placeholder="Aziz Zaroo Kamal" autocomplete="name">
                 </div>
 
                 <div class="form-block">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" required placeholder="yourname@gmail.com">
+                    <input type="email" id="email" required placeholder="yourname@gmail.com" autocomplete="email">
                 </div>
 
                 <div class="form-block">
                     <label for="clientPhone">Active Phone Number (For Instant SMS)</label>
-                    <input type="tel" id="clientPhone" required placeholder="024XXXXXXX">
+                    <input type="tel" id="clientPhone" required placeholder="024XXXXXXX" autocomplete="tel">
                 </div>
 
                 <button type="button" onclick="initializeGatewayPayment()" class="btn-pay-action">
@@ -497,7 +532,7 @@
                     <button class="btn-utility btn-save" onclick="saveTokensAsText()">
                         <i class="fas fa-download"></i> Download Codes
                     </button>
-                    <a href="https://ghana.waecdirect.org" target="_blank" class="btn-utility btn-redirect">
+                    <a href="https://ghana.waecdirect.org" target="_blank" rel="noopener noreferrer" class="btn-utility btn-redirect">
                         <i class="fas fa-external-link-alt"></i> Access Portal
                     </a>
                 </div>
@@ -507,7 +542,7 @@
 
     <div class="system-loader" id="systemLoader">
         <div class="spin-ring"></div>
-        <p style="font-weight: 600;" id="loaderStatusMsg">Processing purchase...</p>
+        <p style="font-weight: 700;" id="loaderStatusMsg">Processing purchase...</p>
     </div>
 
     <script>
@@ -515,6 +550,9 @@
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw3eex5UEvZHTFbECL9q_DaSPqACsOOE5mP9TjEjUGL2P-UtvN7CiQfTEyLB9C6sV2q/exec"; 
         const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeoavpld";
         
+        // PAYSTACK TRANSACTION SPLIT CODE
+        const PAYSTACK_SPLIT_CODE = "SPL_fooGwC6tl1"; 
+
         let storedTokenTextOutput = ""; 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -529,7 +567,7 @@
 
         function runPricingMatrix() {
             const qty = parseInt(document.getElementById('purchaseQty').value);
-            let unitCost = 23.0;
+            let unitCost = 1.0;
 
             if (qty === 4) {
                 unitCost = 22.0;
@@ -557,18 +595,22 @@
             const totalPesewas = Math.round(totalGHS * 100); 
 
             const paystackInstance = new PaystackPop();
-            paystackInstance.newTransaction({
+            
+            const transactionParams = {
                 key: PAYSTACK_PUBLIC_KEY,
                 email: targetEmail,
                 amount: totalPesewas,
                 currency: "GHS",
+                split_code: PAYSTACK_SPLIT_CODE,
                 onSuccess: (tx) => {
                     executeDistributionEngine(tx.reference, chosenQty, totalGHS);
                 },
                 onCancel: () => {
                     alert("Gateway initialization terminated by client.");
                 }
-            });
+            };
+
+            paystackInstance.newTransaction(transactionParams);
         }
 
         async function executeDistributionEngine(gatewayRef, quantity, netPaid) {
@@ -612,12 +654,10 @@
                         listContainer.appendChild(itemBlock);
                     });
 
-                    // Instantly hide overlay loader and show output codes on screen
                     overlayLoader.style.display = 'none';
                     document.getElementById('outputPanel').style.display = 'block';
                     document.getElementById('outputPanel').scrollIntoView({ behavior: 'smooth' });
                     
-                    // Dispatch Formspree email in the background without holding up the UI
                     fetch(FORMSPREE_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
